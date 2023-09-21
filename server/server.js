@@ -1,13 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const multer = require("multer");
 const cors = require("cors");
 const yaml = require("js-yaml");
 const fs = require("fs");
 const mongoose= require("mongoose");
 
 const app = express();
-const form_data = multer();
 
 /* setting to config.yml */
 const config = yaml.load(fs.readFileSync("config.yml", 'utf8'));
