@@ -3,9 +3,11 @@ const router = express.Router();
 
 const DM = (db) => {
     router.get("/api/DM_Message_Data", async (req, res) => {
-        const messageList = await db
-            .collection("DM_Message")
-            .find({"_id":""})
+        const dm = await db
+            .collection("DM")
+            .find({"_id":"650bd0c38007affc0aa42229"});
+
+        return res.json(dm);
     })
 }
 

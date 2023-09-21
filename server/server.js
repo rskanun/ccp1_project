@@ -5,6 +5,9 @@ const yaml = require("js-yaml");
 const fs = require("fs");
 const mongoose= require("mongoose");
 
+/* router list */
+const dmPage = require("./routers/DM");
+
 const app = express();
 
 /* setting to config.yml */
@@ -32,6 +35,8 @@ app.use(bodyParser.urlencoded({
     limit: "50mb",
     extended: true
 }));
+
+app.use("/dmPage", dmPage(db));
 
 app.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
