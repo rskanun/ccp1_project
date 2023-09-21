@@ -1,0 +1,4 @@
+.container {
+    display: flex; /* 메세지 전송 div들을 가로로 나열 */
+    gap: 10px; /* div 사이의 간격을 조절 */
+  }

@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import DM from './components/dm_page/TestDM';
+import login from './components/login_page/TestLogin';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <DM />
   </React.StrictMode>
 );
 
