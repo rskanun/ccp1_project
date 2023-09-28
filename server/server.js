@@ -7,6 +7,7 @@ const mongoose= require("mongoose");
 
 /* router list */
 const dmPage = require("./routers/DMRouter");
+const loginPage = require("./routers/LoginRouter");
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use("/dmPage", dmPage(db));
+app.use("/loginPage", loginPage(db));
 
 app.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);

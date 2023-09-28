@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import "./TestDM.css";
 
 
-const TestDM = () => {
+const TestDM = ({loginID}) => {
     const [messages, setMessages] = useState([]);
 
     // 데이터베이스에서 메세지 가져오기
@@ -21,13 +21,7 @@ const TestDM = () => {
     return(
         <div className="container">
             <Chat 
-            username={"user1"}
-            messages={messages}
-            setMessages={setMessages}
-            />
-
-            <Chat 
-            username={"user2"}
+            username={loginID}
             messages={messages}
             setMessages={setMessages}
             />
