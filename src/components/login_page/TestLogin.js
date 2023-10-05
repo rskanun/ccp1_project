@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { socketIO } from '../../Socket';
 import axios from 'axios';
 
 import TestDM from "../dm_page/TestDM";
 import './TestLogin.css';
 
-function Login() {
+function Login({ socket }) {
     const [id, setID] = useState('');
     const [password, setPassword] = useState('');
     const [isLogin, setIsLogin] = useState(false);
@@ -17,9 +18,15 @@ function Login() {
                     pw: password
                 }
             });
+            const isExists = response.data.exists;
             
             // exists 값에 따라 로그인 상태를 설정
-            setIsLogin(response.data.exists);
+            setIsLogin(isExists);
+
+            // 로그인에 성공했을 경우 소캣으로 해당 아이디 전송
+            if(isExists) {
+                socketIO.emit("login", id);
+            }
         }
 
         isEixist().then();
@@ -28,7 +35,7 @@ function Login() {
     return (
         <div>
             {isLogin ? (
-                <TestDM loginID={id}/>) : 
+                <TestDM loginID={id} socket={socket}/>) : 
                 (
                 <div className="login_box">
                 <h3>로그인</h3>
