@@ -2,19 +2,27 @@ const express = require("express");
 const router = express.Router();
 const ObjectId = require("mongodb").ObjectId;
 
-const dmID = "650bd0c38007affc0aa42229";
-
 const DM = (db) => {
-    router.get("/api/test", async (req, res) => {
-        const date = new Date("2023-09-22T03:30:01.591+00:00");
-        const result = await db.collection("DM_Message").find({"Date": date}).toArray();
+    router.get("/api/getDMList", async (req, res) => {
+        const userID = req.query.userID;
+        const dmList = await db
+            .collection("DM")
+            .find({"User_ID": userID})
+            .toArray();
+
+        // 필요한 정보만 따로 가져와 리스트로 변환
+        const result = dmList.map((data) => ({
+            id: data.DM_ID,
+            name: data.Name
+        }));
 
         return res.json(result);
     })
 
     router.get("/api/DMdata", async (req, res) => {
+        const dmID = req.query.dmID;
         const dm = await db
-            .collection("DM_Message")
+            .collection("Message")
             .find({"DM_ID": new ObjectId(dmID)})
             .toArray();
 
@@ -28,20 +36,31 @@ const DM = (db) => {
         return res.json(messageList);
     })
 
+    router.get("/api/getUserList", async (req, res) => {
+        const dmID = req.query.dmID;
+        const userList = await db
+            .collection("DM")
+            .find({"DM_ID": new ObjectId(dmID)})
+            .project({"User_ID":1})
+            .toArray();
+
+        return res.json(userList.map(user => user.User_ID));
+    })
+
     router.post("/api/sendDM", async (req, res) => {
         const date = new Date(req.body.Date);
-        db.collection("DM_Message")
+        const dmID = new ObjectId(req.body.DM_ID);
+        db.collection("Message")
             .insertOne({
-                DM_ID: new ObjectId(dmID),
                 ...req.body,
+                DM_ID: dmID,
                 Date: date})
             .then();
     })
 
     router.delete("/api/deleteDM", async (req, res) => {
         const date = new Date(req.query.date);
-
-        db.collection("DM_Message")
+        db.collection("Message")
         .deleteOne({Date: date})
         .then();
     })

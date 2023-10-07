@@ -12,7 +12,7 @@ function Login({ socket }) {
 
     const handleLogin = () => {
         const isEixist = async () => {
-            const response = await axios.get("http://localhost:4000/loginPage/api/IsAccountExists", {
+            const response = await axios.get(`${process.env.REACT_APP_LOGIN_API_URL}/IsAccountExists`, {
                 params: {
                     id: id,
                     pw: password

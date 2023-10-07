@@ -5,20 +5,12 @@ import axios from 'axios';
 import "./TestChat.css";
 
 
-function Chat({ username }) {
+function Chat({ username, selectedDM }) {
     // 메시지를 전송하는 함수
     const [newMessage, setNewMessage] = useState('');
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        // 데이터베이스에서 메세지 가져오기
-        const loadDM = async () => {
-            const loadData = await axios.get("http://localhost:4000/dmPage/api/DMdata");
-            setMessages(loadData.data);
-        }
-
-        loadDM().then();
-        
         // 새 DM이 도착했을 경우 실시간 업데이트
         socketIO.on("newMessage", (msg) => {
             setMessages(prevMessages => [...prevMessages, { text: msg.Content, sender: msg.Sender, date: msg.Date }]);
@@ -34,25 +26,41 @@ function Chat({ username }) {
         });
     }, [])
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
         if (newMessage.trim() !== '') {
             const nowDate = new Date();
             const data = {
-                //DM_ID: ...
+                DM_ID: selectedDM,
                 Content: newMessage,
                 Sender: username,
                 Date: nowDate
             }
 
-            // 메시지를 전송하고 messages 배열에 추가
-            socketIO.emit("sendMessage", data);
-            setMessages([...messages, { text: data.Content, sender: data.Sender, date: data.Date }]);
+            // 메시지 전송 후 입력 필드 비우기
+            setMessages([...messages, { text: newMessage, sender: username, date: nowDate }]);
+            setNewMessage('');
 
             // 해당 메세지 데이터베이스에 추가
-            axios.post("http://localhost:4000/dmPage/api/sendDM", data).then();
+            axios.post(`${process.env.REACT_APP_DM_API_URL}/sendDM`, data).then();
 
-            // 메시지 전송 후 입력 필드 비우기
-            setNewMessage('');
+            const receiverList = await axios.get(`${process.env.REACT_APP_DM_API_URL}/getUserList`, {
+                params: {
+                    dmID: selectedDM
+                }
+            });
+
+            receiverList.data.map((receiver) => {
+                // 자신을 제외한 DM 안에 있는 사람들에게 메세지 전달
+                if(receiver !== username) {
+                    const socketSendData = {
+                        ...data,
+                        Receiver: receiver
+                    }
+                    // 메시지를 전송하고 messages 배열에 추가
+                    socketIO.emit("sendMessage", socketSendData);
+                }
+            });
+
         }
     };
 
@@ -67,7 +75,7 @@ function Chat({ username }) {
         socketIO.emit("deleteMessage", data);
 
         // 해당 메시지를 데이터베이스 상에서 제거
-        axios.delete("http://localhost:4000/dmPage/api/deleteDM", {
+        axios.delete(`${process.env.REACT_APP_DM_API_URL}/deleteDM`, {
             params: {
                 date: date
             }
@@ -80,19 +88,13 @@ function Chat({ username }) {
 
     return (
         <div className="chat-container">
-            <div/>
-                <div className="message-list">
-                {messages.map((message, index) => (
-                    <div key={index} className="message">
-                        {message.sender === username && (
-                            <button className="message-delete" onClick={() => deleteMessage(index, message.date)}>X</button>
-                        )}
-                        <div key={index} className={`${message.sender === username ? 'self-message' : 'other-user-message'}`}>
-                            {message.text}
-                    </div>
-                </div>
-            ))}
-            </div>
+            <MessageList
+                selectedDM={selectedDM}
+                messages={messages}
+                setMessages={setMessages}
+                deleteMessage={deleteMessage}
+                username={username}
+            />
             <div className="message-input">
                 <input
                     type="text"
@@ -103,6 +105,37 @@ function Chat({ username }) {
             </div>
         </div>
     );
+}
+
+function MessageList({ selectedDM, messages, setMessages, deleteMessage, username }) {
+    useEffect(() => {
+        // 데이터베이스에서 메세지 가져오기
+        const loadDM = async () => {
+            const loadData = await axios.get(`${process.env.REACT_APP_DM_API_URL}/DMdata`, {
+                params: {
+                    dmID: selectedDM
+                }
+            });
+            setMessages(loadData.data);
+        }
+
+        loadDM().then();
+    }, [selectedDM])
+
+    return(
+        <div className="message-list">
+            {messages.map((message, index) => (
+                <div key={index} className="message">
+                    {message.sender === username && (
+                        <button className="message-delete" onClick={() => deleteMessage(index, message.date)}>X</button>
+                    )}
+                    <div key={index} className={`${message.sender === username ? 'self-message' : 'other-user-message'}`}>
+                        {message.text}
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
 }
 
 export default Chat;
