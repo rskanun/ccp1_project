@@ -41,9 +41,7 @@ function Chat({ username, selectedDM, userList }) {
             setNewMessage('');
     
             // 해당 메세지 데이터베이스에 추가
-            console.log("1");
             await axios.post(`${process.env.REACT_APP_DM_API_URL}/sendDM`, data);
-            console.log("2");
     
             // 사용자 목록을 순회하며 메세지 전송
             for (const receiver of userList) {
@@ -92,6 +90,12 @@ function Chat({ username, selectedDM, userList }) {
         }));
     };
 
+    const handlerKeyDown = (e) => {
+        if(e.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
     return selectedDM ? (
         <div className="chat-container">
             <MessageList
@@ -106,6 +110,7 @@ function Chat({ username, selectedDM, userList }) {
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={handlerKeyDown}
                 />
                 <button onClick={sendMessage}>전송</button>
             </div>
