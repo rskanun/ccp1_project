@@ -67,6 +67,20 @@ const DM = (db) => {
         res.status(200).json({ message: "메시지 삭제 완료" });
     })
 
+    router.delete("/api/exitDM", async (req, res) => {
+        try {
+            const { dmID, userID } = req.body;
+            await db.collection("DM")
+            .deleteOne({DM_ID: dmID, User_ID: userID});
+
+            res.status(200).json({ message: "DM 나가기 완료"});
+
+        } catch (e) {
+            console.error(e);
+            return res.status(500).json({ message: 'Server Error!!'});
+        }
+    })
+
     return router;
 }
 
