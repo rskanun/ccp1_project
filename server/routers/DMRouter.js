@@ -50,19 +50,21 @@ const DM = (db) => {
     router.post("/api/sendDM", async (req, res) => {
         const date = new Date(req.body.Date);
         const dmID = new ObjectId(req.body.DM_ID);
-        db.collection("Message")
+        await db.collection("Message")
             .insertOne({
                 ...req.body,
                 DM_ID: dmID,
-                Date: date})
-            .then();
+                Date: date});
+
+        res.status(200).json({ message: "메시지 전송 완료" });
     })
 
     router.delete("/api/deleteDM", async (req, res) => {
         const date = new Date(req.query.date);
-        db.collection("Message")
-        .deleteOne({Date: date})
-        .then();
+        await db.collection("Message")
+        .deleteOne({Date: date});
+        
+        res.status(200).json({ message: "메시지 삭제 완료" });
     })
 
     return router;

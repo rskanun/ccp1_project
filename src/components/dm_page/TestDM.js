@@ -10,6 +10,7 @@ import "./TestDM.css";
 
 const TestDM = ({loginID}) => {
     const [dmList, setDmList] = useState([]);
+    const [userList, setUserList] = useState([]);
     const [selectedDM, setSelectedDM] = useState(null);
 
     useEffect(() => {
@@ -28,8 +29,15 @@ const TestDM = ({loginID}) => {
 
     return(
         <div className="container">
-            <ChatRoomList dmList={dmList} selectedDM={selectedDM} setSelectedDM={setSelectedDM}/>
-            <Chat username={loginID} selectedDM={selectedDM}/>
+            <ChatRoomList
+                dmList={dmList}
+                selectedDM={selectedDM}
+                setSelectedDM={setSelectedDM}
+                setUserList={setUserList}/>
+            <Chat 
+                username={loginID} 
+                selectedDM={selectedDM}
+                userList={userList}/>
         </div>
     )
 }
