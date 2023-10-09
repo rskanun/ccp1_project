@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
-function MainPage() {
+function MainPage({ setID }) {
     const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
     const navigate = useNavigate();
 
@@ -11,11 +11,13 @@ function MainPage() {
         const userCheck = () => {
             const token = cookies.loginID;
 
-            axios.post(`${process.env.REACT_APP_LOGIN_API_URL}/loginCheck`, {token: token})
-                .then()
-                .catch(() => {
-                    handleLogout();
-                })
+            const promise = axios.post(`${process.env.REACT_APP_LOGIN_API_URL}/loginCheck`, {token: token});
+            promise.then((res) => {
+                setID(res.data.id);
+            })
+            .catch(() => {
+                handleLogout();
+            });
         }
 
         userCheck();

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
 
 // javascript
 import Chat from "./TestChat";
@@ -9,8 +8,7 @@ import ChatRoomList from "./TestChatRoomList";
 // css
 import "./TestDM.css";
 
-const TestDM = () => {
-    const [cookies] = useCookies(['loginID']);
+const TestDM = ({loginID}) => {
     const [dmList, setDmList] = useState([]);
     const [userList, setUserList] = useState([]);
     const [selectedDM, setSelectedDM] = useState(null);
@@ -20,7 +18,7 @@ const TestDM = () => {
         const loadDmList = async () => {
             const list = await axios.get("http://localhost:4000/dmPage/api/getDMList", {
                 params: {
-                    userID: cookies.loginID
+                    userID: loginID
                 }
             });
             setDmList(list.data);
@@ -37,7 +35,7 @@ const TestDM = () => {
                 setSelectedDM={setSelectedDM}
                 setUserList={setUserList}/>
             <Chat 
-                username={cookies.loginID} 
+                username={loginID} 
                 selectedDM={selectedDM}
                 userList={userList}/>
         </div>

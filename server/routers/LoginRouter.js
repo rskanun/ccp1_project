@@ -35,7 +35,7 @@ const login = (db) => {
 
         try {
             const decoded = jwt.verify(token, secretKey);
-
+            
             return res.status(200).json({ id: decoded });
         } catch (e) {
             console.error(e);
