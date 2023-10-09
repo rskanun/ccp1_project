@@ -1,9 +1,9 @@
+/* eslint-disable*/
 import React, { useState, useEffect } from 'react';
 import { socketIO } from '../../Socket';
 import axios from 'axios';
 // css
 import "./TestChat.css";
-
 
 function Chat({ username, selectedDM, userList }) {
     // 메시지를 전송하는 함수
@@ -90,7 +90,7 @@ function Chat({ username, selectedDM, userList }) {
         }));
     };
 
-    const handlerKeyDown = (e) => {
+    const handleKeyDown = (e) => {
         if(e.key === 'Enter') {
             sendMessage();
         }
@@ -110,7 +110,7 @@ function Chat({ username, selectedDM, userList }) {
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyDown={handlerKeyDown}
+                    onKeyDown={handleKeyDown}
                 />
                 <button onClick={sendMessage}>전송</button>
             </div>
