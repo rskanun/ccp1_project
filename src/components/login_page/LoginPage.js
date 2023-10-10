@@ -35,6 +35,16 @@ function LoginPage() {
         }
     }
 
+    const openJoinWindow = () => {
+        const newWindowUrl = ''; //회원가입 페이지
+        window.open(newWindowUrl, '_blank', 'width=400,height=300');
+    };
+
+    const openFindAccWindow = () => {
+        const newWindowUrl = './TestFindAcc.js'; //아이디 또는 비번 찾기 페이지
+        window.open(newWindowUrl, '_blank', 'width=400,height=300');
+    };
+
     return (
         <div className = "whole_box">
             <div className="login_box">
@@ -46,9 +56,9 @@ function LoginPage() {
                     (e) => setPassword(e.target.value)
                 } onKeyDown={handleKeyDown}/><br />
                 <button className="login_check" onClick={handleLogin}>로그인</button><br />
-                <a href="#" className="find_acc">회원가입</a>
-                <a herf="#" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                <a href="#" className="find_acc">아이디&nbsp;/&nbsp;비밀번호 찾기&nbsp;</a>
+                <a href=""><span className="create_acc" onClick={openJoinWindow}>회원가입</span></a>
+                <a herf=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
+                <a href=""><span className="find_acc" onClick={openFindAccWindow}>아이디&nbsp;/&nbsp;비밀번호 찾기&nbsp;</span></a>
             </div>
         </div>
     );
