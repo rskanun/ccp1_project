@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import TestDM from "../dm_page/DM";
-import './TestLogin.css';
+import './Login.css';
 
 function Login() {
     const [id, setID] = useState('');
@@ -28,7 +28,7 @@ function Login() {
 
     const openJoinWindow = () => {
         const newWindowUrl = ''; //회원가입 페이지
-        window.open(newWindowUrl, '_blank', 'width=400,height=300');
+        window.open(newWindowUrl, '_blank', 'width=500,height=300');
     };
 
     const openFindAccWindow = () => {

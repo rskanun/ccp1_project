@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './TestFindAcc.css';
+import './FindAcc.css';
 
 function FindAcc() {
   const [isIdSelected, setIsIdSelected] = useState(true);
@@ -16,8 +16,11 @@ function FindAcc() {
   };
 
   const openNewWindow = () => {
-    const newWindowUrl = 'Home.js'; //로그인 상태로 메인 화면 이동
-    window.open(newWindowUrl, '_blank', 'width=400,height=300');
+    //성공시 찾은 아이디/비번을 알리는 창을 띄움, 아니면 실패 결과창을 알리는 창을 띄움
+    const found = 'Home.js'; 
+    const notFound = 'Home.js'; 
+    //if문 처리 예정
+    window.open(found, '_blank', 'width=400,height=300');
   };
 
   return (
