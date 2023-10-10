@@ -44,6 +44,13 @@ function LoginPage() {
         const newWindowUrl = './login/FindAcc'; //아이디 또는 비번 찾기 페이지
         window.open(newWindowUrl, '_blank', 'width=400,height=300');
     };
+    
+    window.addEventListener("message", (event) => {
+        if (event.data === "findAccWindowClosed") {
+            navigate('/DM');
+            console.log("새로운 창이 닫혔습니다.");
+        }
+    });
 
     return (
         <div className = "whole_box">
