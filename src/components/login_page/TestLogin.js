@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import TestDM from "../dm_page/DM";
+import TestDM from "../dm_page/TestDM";
 import './TestLogin.css';
 
 function Login() {
@@ -19,21 +19,10 @@ function Login() {
             });
             
             // exists 값에 따라 로그인 상태를 설정
-            if (!(response.data.exists)) console.log("아이디 또는 비밀번호가 일치하지 않습니다.");
-            else setIsLogin(response.data.exists);
+            setIsLogin(response.data.exists);
         }
+
         isEixist().then();
-         
-    };
-
-    const openJoinWindow = () => {
-        const newWindowUrl = ''; //회원가입 페이지
-        window.open(newWindowUrl, '_blank', 'width=400,height=300');
-    };
-
-    const openFindAccWindow = () => {
-        const newWindowUrl = './TestFindAcc.js'; //아이디 또는 비번 찾기 페이지
-        window.open(newWindowUrl, '_blank', 'width=400,height=300');
     };
 
     return (
@@ -50,9 +39,9 @@ function Login() {
                     (e) => setPassword(e.target.value)
                 }/><br />
                 <button className="login_check" onClick={handleLogin}>로그인</button><br />
-                <a href=""><span className="create_acc" onClick={openJoinWindow}>회원가입</span></a>
-                <a herf=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
-                <a href=""><span className="find_acc" onClick={openFindAccWindow}>아이디&nbsp;/&nbsp;비밀번호 찾기&nbsp;</span></a>
+                <a href=""><text className="find_acc">회원가입</text></a>
+                <a herf=""><text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text></a>
+                <a href=""><text className="find_acc">아이디&nbsp;/&nbsp;비밀번호 찾기&nbsp;</text></a>
                 </div>)}
         </div>
     );
