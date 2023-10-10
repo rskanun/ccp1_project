@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './TestFindAcc.css';
+import './FindAcc.css';
 
 function FindAcc() {
   const [isIdSelected, setIsIdSelected] = useState(true);
