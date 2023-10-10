@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // javascript
@@ -8,7 +10,33 @@ import ChatRoomList from "./TestChatRoomList";
 // css
 import "./TestDM.css";
 
-const TestDM = ({loginID}) => {
+function TestDM() {
+    const [id, setID] = useState('');
+    const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // 로그인 체크
+        const userCheck = async () => {
+            const token = cookies.loginID;
+            try {
+                const res = await axios.post(`${process.env.REACT_APP_LOGIN_API_URL}/loginCheck`, {token: token});
+                setID(res.data.id);
+            } catch (e) {
+                removeCookie('loginID'); // 쿠키 삭제
+                navigate('login'); // 로그인 페이지 이동
+            }
+        }
+
+        userCheck();
+    }, []);
+
+    return id ? (<DM loginID={id}/>)
+        : null;
+}
+export default TestDM;
+
+function DM({loginID}) {
     const [dmList, setDmList] = useState([]);
     const [userList, setUserList] = useState([]);
     const [selectedDM, setSelectedDM] = useState(null);
@@ -25,12 +53,14 @@ const TestDM = ({loginID}) => {
         }
 
         loadDmList().then();
-    });
+    }, [setDmList]);
 
     return(
         <div className="container">
             <ChatRoomList
+                loginID={loginID}
                 dmList={dmList}
+                setDmList={setDmList}
                 selectedDM={selectedDM}
                 setSelectedDM={setSelectedDM}
                 setUserList={setUserList}/>
@@ -41,4 +71,3 @@ const TestDM = ({loginID}) => {
         </div>
     )
 }
-export default TestDM;

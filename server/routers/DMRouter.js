@@ -56,7 +56,7 @@ const DM = (db) => {
                 DM_ID: dmID,
                 Date: date});
 
-        res.status(200).json({ message: "메시지 전송 완료" });
+        return res.status(200).json({ message: "메시지 전송 완료" });
     })
 
     router.delete("/api/deleteDM", async (req, res) => {
@@ -64,17 +64,22 @@ const DM = (db) => {
         await db.collection("Message")
         .deleteOne({Date: date});
         
-        res.status(200).json({ message: "메시지 삭제 완료" });
+        return res.status(200).json({ message: "메시지 삭제 완료" });
     })
 
     router.delete("/api/exitDM", async (req, res) => {
         try {
-            const { dmID, userID } = req.body;
-            await db.collection("DM")
-            .deleteOne({DM_ID: dmID, User_ID: userID});
+            const dmID = new ObjectId(req.query.dmID);
+            const userID = req.query.userID;
 
-            res.status(200).json({ message: "DM 나가기 완료"});
+            const dm = await db.collection("DM").findOne({ DM_ID: dmID, User_ID: userID });
+            if (dm) {
+                await db.collection("DM")
+                    .deleteOne({DM_ID: dmID, User_ID: userID});
 
+                return res.status(200).json({ message: "DM 나가기 완료"});
+            }
+            else return res.status(404).json({ message: "데이터가 존재하지 않습니다." });
         } catch (e) {
             console.error(e);
             return res.status(500).json({ message: 'Server Error!!'});

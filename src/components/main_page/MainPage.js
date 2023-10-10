@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+/* eslint-disable*/
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
-function MainPage({ setID }) {
+function MainPage() {
+    const [id, setID] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
     const navigate = useNavigate();
 

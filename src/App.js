@@ -7,15 +7,13 @@ import Login from "./components/login_page/LoginPage";
 import DM from "./components/dm_page/TestDM";
 
 function App() {
-  const [id, setID] = useState('');
-
   return (
     <CookiesProvider>
       <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main setID={setID}/>}/>
+        <Route path="/" element={<Main/>}/>
         <Route path="/Login/*" element={<Login/>}/>
-        <Route path="/DM/*" element={<DM loginID={id}/>}/>
+        <Route path="/DM/*" element={<DM/>}/>
       </Routes>
     </BrowserRouter>
     </CookiesProvider>
