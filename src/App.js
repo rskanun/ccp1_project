@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import React, { useState } from "react";
+import { CookiesProvider, useCookies } from 'react-cookie';
+
+import Main from "./components/main_page/MainPage";
+import Login from "./components/login_page/LoginPage";
+import DM from "./components/dm_page/TestDM";
 
 function App() {
+  const [id, setID] = useState('');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CookiesProvider>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main setID={setID}/>}/>
+        <Route path="/Login/*" element={<Login/>}/>
+        <Route path="/DM/*" element={<DM loginID={id}/>}/>
+      </Routes>
+    </BrowserRouter>
+    </CookiesProvider>
   );
 }
 

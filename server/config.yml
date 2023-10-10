@@ -1,0 +1,8 @@
+Server:
+  Host: 127.0.0.1
+  Port: 4000
+
+MongoDB:
+  Host: 127.0.0.1
+  Port: 27017
+  Database: ccp1_teamproject
