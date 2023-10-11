@@ -1,0 +1,6 @@
+.container {
+    display: flex;
+    position: fixed; /* 화면에 고정 위치로 설정 */
+    left: 50%; /* 화면 가로 중앙에 위치시키기 위해 50%로 설정 */
+    transform: translate(-50%, 0); /* div를 수평 및 수직으로 가운데 정렬 */
+  }

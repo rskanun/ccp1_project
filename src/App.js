@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import React from "react";
+import { CookiesProvider } from 'react-cookie';
+
+import Main from "./components/main_page/MainPage";
+import Login from "./components/login_page/LoginPage";
+import FindAcc from "./components/login_page/FindAcc";
+import DM from "./components/dm_page/TestDM";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CookiesProvider>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main/>}/>
+        <Route path="/login/*" element={<Login/>}/>
+        <Route path="/login/FindAcc" element={<FindAcc/>}/>
+        <Route path="/DM/*" element={<DM/>}/>
+      </Routes>
+    </BrowserRouter>
+    </CookiesProvider>
   );
 }
 

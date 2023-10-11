@@ -31,6 +31,14 @@ function FindAcc() {
     window.open(found, '_blank', 'width=400,height=300');
   };
 
+  const handleFindAccWindowClosed = () => {
+    // 부모 창에 메시지를 보냅니다.
+    window.opener.postMessage("findAccWindowClosed", "*");
+
+    // 새로운 창을 닫습니다.
+    window.close();
+};
+
   return (
     <div className="wholeBox">
       <div className="findBox">
