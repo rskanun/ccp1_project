@@ -24,7 +24,7 @@ function TestDM() {
                 setID(res.data.id);
             } catch (e) {
                 removeCookie('loginID'); // 쿠키 삭제
-                navigate('login'); // 로그인 페이지 이동
+                navigate('/login'); // 로그인 페이지 이동
             }
         }
 
@@ -44,7 +44,7 @@ function DM({loginID}) {
     useEffect(() => {
         // 데이터베이스에서 DM 목록 가져오기
         const loadDmList = async () => {
-            const list = await axios.get("http://localhost:4000/dmPage/api/getDMList", {
+            const list = await axios.get(`${process.env.REACT_APP_LOGIN_API_URL}/getDMList`, {
                 params: {
                     userID: loginID
                 }
