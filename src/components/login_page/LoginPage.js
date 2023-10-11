@@ -27,6 +27,9 @@ function LoginPage() {
             // 메인 페이지 이동
             navigate('/');
         })
+        .catch(() => {
+            // 화면상에 오류 메세지
+        })
     };
 
     const handleKeyDown = (e) => {
