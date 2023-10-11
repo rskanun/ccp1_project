@@ -33,6 +33,10 @@ const login = (db) => {
     router.post("/api/loginCheck", async (req, res) => {
         const token = req.body.token;
 
+        if (!token) {
+            return res.status(400).json({ message: "Token is missing" });
+        }
+
         try {
             const decoded = jwt.verify(token, secretKey);
             
