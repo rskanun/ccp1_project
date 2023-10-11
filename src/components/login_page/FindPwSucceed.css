@@ -23,23 +23,3 @@ span{
     height: 20px;
 }
 
-.buttonBox{
-    display: flex;
-    width: 300px;
-    height: 30px;
-}
-
-.goToLogin{
-    width: 140px;
-    height: 30px;
-    background-color: gray;
-    border-color: black;
-    border: 0.5px solid #000;
-    color: white;
-    margin: 0 auto;
-}
-
-.goToLogin:hover{
-    background-color:black;
-    cursor: pointer;
-}

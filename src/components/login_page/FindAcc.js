@@ -15,10 +15,18 @@ function FindAcc() {
     setIsPwSelected(true);
   };
 
-  const openNewWindow = () => {
+  const openFindIdWindow = () => {
     //성공시 찾은 아이디/비번을 알리는 창을 띄움, 아니면 실패 결과창을 알리는 창을 띄움
-    const found = 'Home.js'; 
-    const notFound = 'Home.js'; 
+    const found = './login/FindIdSuccess'; 
+    const notFound = './login/FindIdFail'; 
+    //if문 처리 예정
+    window.open(found, '_blank', 'width=400,height=300');
+  };
+
+  const openFindPwWindow = () => {
+    //성공시 찾은 아이디/비번을 알리는 창을 띄움, 아니면 실패 결과창을 알리는 창을 띄움
+    const found = './login/FindPwSuccess'; 
+    const notFound = './login/FindPwFail'; 
     //if문 처리 예정
     window.open(found, '_blank', 'width=400,height=300');
   };
@@ -49,7 +57,9 @@ function FindAcc() {
           <br />
           <input type="text" className="inputEmail" placeholder="이메일" />
           <br />
-          <button className="check">아이디 찾기</button>
+          <button className="check" onClick={openFindIdWindow}>
+            아이디 찾기
+            </button>
           <br />
         </div>
       )}
@@ -57,11 +67,11 @@ function FindAcc() {
       {isPwSelected && (
         <div id="findPwDiv" className="findPw">
           <br />
-          <span className="enterEmailMeaasge">아이디를 입력해주세요!</span>
-          <br />
+          <span className="enterEmailMeaasge">아이디/이메일을 입력해주세요!</span>
+          <input type="text" className="inputEmail" placeholder="이메일" />
           <input type="text" className="inputId" placeholder="아이디" />
           <br />
-          <button id="openWindowButton" className="check">
+          <button id="openWindowButton" className="check" onClick={openFindPwWindow}>
             비밀번호 찾기
           </button>
           <br />
