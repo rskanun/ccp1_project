@@ -1,6 +1,6 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import React, { useState } from "react";
-import { CookiesProvider, useCookies } from 'react-cookie';
+import React from "react";
+import { CookiesProvider } from 'react-cookie';
 
 import Main from "./components/main_page/MainPage";
 import Login from "./components/login_page/LoginPage";
@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main/>}/>
-        <Route path="/Login/*" element={<Login/>}/>
+        <Route path="/login/*" element={<Login/>}/>
         <Route path="/DM/*" element={<DM/>}/>
       </Routes>
     </BrowserRouter>

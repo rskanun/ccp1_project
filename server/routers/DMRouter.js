@@ -81,7 +81,6 @@ const DM = (db) => {
             }
             else return res.status(404).json({ message: "데이터가 존재하지 않습니다." });
         } catch (e) {
-            console.error(e);
             return res.status(500).json({ message: 'Server Error!!'});
         }
     })

@@ -44,7 +44,7 @@ function DM({loginID}) {
     useEffect(() => {
         // 데이터베이스에서 DM 목록 가져오기
         const loadDmList = async () => {
-            const list = await axios.get(`${process.env.REACT_APP_LOGIN_API_URL}/getDMList`, {
+            const list = await axios.get(`${process.env.REACT_APP_DM_API_URL}/getDMList`, {
                 params: {
                     userID: loginID
                 }
