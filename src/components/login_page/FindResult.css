@@ -1,0 +1,49 @@
+/* 공통 스타일 */
+.wholeBox {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 200px;
+    background-color: rgb(245, 245, 245);
+}
+
+span {
+    margin: 0 auto;
+}
+
+.noticeFailText, .noticeIDText2 {
+    display: flex;
+    width: 300px;
+    height: 30px;
+}
+
+.noticeID {
+    display: flex;
+    width: 300px;
+    height: 30px;
+}
+
+.noticeIDText {
+    display: flex;
+    width: 300px;
+    height: 20px;
+}
+
+.noticeFailText2 {
+    display: flex;
+    width: 300px;
+    height: 20px;
+}
+
+.noticePW {
+    display: flex;
+    width: 300px;
+    height: 30px;
+}
+
+.noticePWText {
+    display: flex;
+    width: 300px;
+    height: 20px;
+}
