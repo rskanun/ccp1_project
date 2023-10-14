@@ -1,0 +1,56 @@
+.resultContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(245, 245, 245);
+}
+
+.resultWholeBox {
+    width: 300px;
+    height: 200px;
+}
+
+span {
+    margin: 0 auto;
+}
+
+.noticeFailText, .noticeIDText2 {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 30px;
+}
+
+.noticeID {
+    display: flex;
+    width: 300px;
+    height: 30px;
+}
+
+.noticeIDText {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 20px;
+}
+
+.noticeFailText2 {
+    display: flex;
+    width: 300px;
+    height: 20px;
+}
+
+.noticePW {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 30px;
+}
+
+.noticePWText {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 20px;
+}
