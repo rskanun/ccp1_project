@@ -1,3 +1,5 @@
+const ObjectId = require("mongodb").ObjectId;
+
 const dmSocket = (socket, io, db, userSocketMap) => {
     // DM 전송 시 해당 아이디와 일치하는 유저의 socket에만 메세지 전송
     socket.on("sendMessage", async (data) => {
@@ -10,10 +12,9 @@ const dmSocket = (socket, io, db, userSocketMap) => {
         }
         else {
             await db.collection("DM").findOneAndUpdate(
-                { DM_ID: dmID, User_ID: userID },
-                { $set: { Is_Reading: true } }
+                { DM_ID: new ObjectId(data.DM_ID), User_ID: data.Receiver },
+                { $set: { Is_Reading: false } }
             );
-            console.log("not found user");
         }
     });
 

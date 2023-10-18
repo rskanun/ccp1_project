@@ -15,7 +15,7 @@ function ChatList({ loginID, dmList, selectedDM, setSelectedDM, setSelectedDmInd
         if(selectedDM) {
             loadUserList().then();
         }
-    }, [setSelectedDM]);
+    }, [setSelectedDM, selectedDM]);
 
     const handleDmClick = async (index, dm) => {
         if(dm.isReading === false) {
@@ -23,6 +23,8 @@ function ChatList({ loginID, dmList, selectedDM, setSelectedDM, setSelectedDmInd
                 dmID: dm.id,
                 userID: loginID
             }).then(() => {
+                dm.isReading = true;
+                
                 setSelectedDM(dm);
                 setSelectedDmIndex(index);
             });
