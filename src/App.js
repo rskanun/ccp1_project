@@ -5,7 +5,7 @@ import { CookiesProvider } from 'react-cookie';
 import Main from "./components/main_page/MainPage";
 import Login from "./components/login_page/LoginPage";
 import FindAcc from "./components/login_page/FindAcc";
-import DM from "./components/dm_page/TestDM";
+import DM from "./components/dm_page/DM";
 
 function App() {
   return (

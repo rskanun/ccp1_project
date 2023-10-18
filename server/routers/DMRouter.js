@@ -13,7 +13,8 @@ const DM = (db) => {
         // 필요한 정보만 따로 가져와 리스트로 변환
         const result = dmList.map((data) => ({
             id: data.DM_ID,
-            name: data.Name
+            name: data.Name,
+            isReading: data.Is_Reading
         }));
 
         return res.json(result);
@@ -84,6 +85,30 @@ const DM = (db) => {
             return res.status(500).json({ message: 'Server Error!!'});
         }
     })
+
+    router.patch("/api/readingDM", async (req, res) => {
+        try {
+            const dmID = req.body.dmID;
+            const userID = req.body.userID;
+    
+            // 데이터베이스에서 해당 DM을 찾아 Is_Reading을 true로 업데이트
+            const find = await db.collection("DM").findOne({ DM_ID: dmID, User_ID: userID });
+
+            const result = await db.collection("DM").findOneAndUpdate(
+                { DM_ID: dmID, User_ID: userID },
+                { $set: { Is_Reading: true } }
+            );
+    
+            if (result.value) {
+                return res.status(200).json({ message: "메세지 읽음" });
+            } else {
+                console.log(find);
+                return res.status(404).json({ message: "해당 DM을 찾을 수 없습니다." });
+            }
+        } catch (error) {
+            return res.status(500).json({ message: "서버 오류" });
+        }
+    });
 
     return router;
 }

@@ -1,0 +1,234 @@
+.whole_box{
+    display: flex;
+    width: 1700px;
+    height: 800px;
+    border: 1px solid black;
+    text-align: center;
+    justify-content: center;
+}
+
+.dm_box{
+    display: flex;
+    width: 900px;
+    height: 700px;
+    border: 5px inset black;
+    border-radius: 5px;
+}
+
+.dm_list{
+    width: 30%;
+    height: 700px;
+    overflow-y: auto; 
+    overflow-x: hidden;
+    max-height: 700px; 
+}
+
+
+::-webkit-scrollbar {
+    width: 0px; /* 스크롤바 너비 */
+  }
+  
+.dm_opponent_talking{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    border: 1px dashed #666;
+    background: linear-gradient(90deg,#bbb 60%, #eee);
+    align-items: center;
+    text-align: left;
+}
+
+.dm_opponent{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    border: 1px dashed #666;
+    background-color: #bbb;
+    align-items: center;
+    text-align: left;
+}
+
+.dm_opponent:hover{
+    cursor: pointer;
+}
+
+.dm_opponent_talking:hover{
+    cursor: pointer;
+}
+
+.profile{
+   width: 20%;
+   margin-left: 10px;
+}
+
+.user_name{
+    width: 70%;
+}
+
+.not_check_message{
+    width: 10%;
+}
+
+
+.dm_chat{
+    width: 70%;
+    height: 700px;
+    background-color: #eee;
+}
+
+.dm_exit{
+    position: absolute;
+    margin: 10px 0px 0px 280px;
+    background-color: #eee;
+    border: 2px solid black;
+    border-radius: 30%;
+}
+
+.dm_exit:hover{
+    cursor: pointer;
+}
+
+.ask_exit{
+    display: inline;
+    margin: 10px 0px 0px 282px;
+    position: absolute;
+    width: 205px;
+    height: 40px;
+    background: #ccc;
+    color: #333;
+    border-radius: 5px;
+    z-index: 1;
+    top: 8%;
+    box-shadow: 2px 2px 3px #d1d1d1;
+}
+
+.ask_exit::after{
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 5%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ccc transparent;
+}
+
+.dm_exit_check{
+    width: 25px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.dm_exit_refuse{
+    width: 25px;
+    height: 20px;
+}
+
+.dm_exit_check:hover{
+   cursor: pointer;
+}
+
+.dm_exit_refuse:hover{
+    cursor: pointer;
+}
+
+.dm_whole_content{
+    display: flex;
+    width: 100%;
+    height: 650px;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+}
+
+
+
+
+.dm_content{
+    display: flex;
+    flex-direction: column; /* 아이템들을 수직으로 배치 */
+    justify-content: flex-start; /* 위로 정렬 */
+    width: 90%;
+    height: 600px;
+    border: 2px inset #666;
+    border-radius: 5%;
+    overflow: auto; 
+    background-color: #fff;
+}
+
+.self_message {
+    width: auto;
+    height: auto; /* 말풍선 높이를 자동으로 조절합니다. */
+    border: 1px solid #111;
+    border-radius: 10px; 
+    padding: 10px; /* 내용과 테두리 사이의 간격 */
+    margin: 10px; /* 다른 말풍선과의 간격 */
+    max-width: 70%; /* 말풍선 최대 너비 */
+    background-color: #fff; 
+    align-self: flex-end; 
+    word-wrap: break-word; /* 긴 단어 또는 URL을 강제로 줄 바꿈합니다. */
+    overflow-wrap: break-word; /* 단어 내부에서 줄 바꿈을 하도록 합니다. */
+    position: relative;
+    box-shadow: 2px 2px 3px #d1d1d1;
+}
+
+  
+.other_user_message {
+    width: auto;
+    height: auto; /* 말풍선 높이를 자동으로 조절합니다. */
+    border-radius: 10px; 
+    padding: 10px; /* 내용과 테두리 사이의 간격 */
+    margin: 10px; /* 다른 말풍선과의 간격 */
+    max-width: 70%; /* 말풍선 최대 너비 */
+    background-color: #111; 
+    align-self: flex-start; 
+    color: #eee;
+    word-wrap: break-word; /* 긴 단어 또는 URL을 강제로 줄 바꿈합니다. */
+    overflow-wrap: break-word; /* 단어 내부에서 줄 바꿈을 하도록 합니다. */
+    box-shadow: 2px 2px 3px #d1d1d1;
+}
+
+
+.delete_sender_bubble{
+    opacity: 0;
+    position: absolute;
+    border:1px double #888;
+    border-radius: 3px;
+    left: -10px;
+    top: -8px;
+    color: #888;
+}
+
+
+.self_message:hover > .delete_sender_bubble{
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+
+.dm_inputTextBox{
+    width: 100%;
+    height: 50px;
+}
+
+.dm_inputText{
+    width: 380px;
+    height: 25px;
+    margin-right: 20px;
+    border-radius: 10px; 
+    border: 1px solid #666;
+}
+
+.dm_inputText_enter{
+    width: 50px;
+    height: 30px;
+    background-color: #888;
+    border-radius: 10px; 
+    border: none;
+}
+
+.dm_inputText_enter:hover{
+    cursor: pointer;
+    background-color: #111;
+    color: #fff;
+}

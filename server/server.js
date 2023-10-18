@@ -59,7 +59,7 @@ const dmSocket = require("./sockets/DMSocket");
 
 io.on("connection", (socket) => {
     loginSocket(socket, userSocketMap);
-    dmSocket(socket, io, userSocketMap);
+    dmSocket(socket, io, db, userSocketMap);
 
     socket.on("disconnect", () => {
         // 연결이 종료된 소켓의 정보를 맵에서 제거

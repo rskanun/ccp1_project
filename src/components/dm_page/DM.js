@@ -3,14 +3,14 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// javascript
-import Chat from "./TestChat";
-import ChatRoomList from "./TestChatRoomList";
+// javaScript
+import ChatList from "./ChatList";
+import Chatting from "./Chatting";
 
 // css
-import "./TestDM.css";
+import './DM.css';
 
-function TestDM() {
+function DmPage() {
     const [id, setID] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
     const navigate = useNavigate();
@@ -34,12 +34,13 @@ function TestDM() {
     return id ? (<DM loginID={id}/>)
         : null;
 }
-export default TestDM;
+export default DmPage;
 
 function DM({loginID}) {
     const [dmList, setDmList] = useState([]);
     const [userList, setUserList] = useState([]);
     const [selectedDM, setSelectedDM] = useState(null);
+    const [selectedDmIndex, setSelectedDmIndex] = useState(null);
 
     useEffect(() => {
         // 데이터베이스에서 DM 목록 가져오기
@@ -54,20 +55,27 @@ function DM({loginID}) {
 
         loadDmList().then();
     }, [setDmList]);
-
-    return(
-        <div className="container">
-            <ChatRoomList
-                loginID={loginID}
-                dmList={dmList}
-                setDmList={setDmList}
-                selectedDM={selectedDM}
-                setSelectedDM={setSelectedDM}
-                setUserList={setUserList}/>
-            <Chat 
-                username={loginID} 
-                selectedDM={selectedDM}
-                userList={userList}/>
+  
+    return (
+        <div className='whole_box'>
+            <div className='dm_box'>
+                <ChatList 
+                    loginID={loginID}
+                    dmList={dmList}
+                    selectedDM={selectedDM}
+                    setSelectedDM={setSelectedDM}
+                    setSelectedDmIndex={setSelectedDmIndex}
+                    setUserList={setUserList}/>
+                <Chatting 
+                    loginID={loginID}
+                    selectedDmIndex={selectedDmIndex}
+                    dmList={dmList}
+                    setDmList={setDmList}
+                    selectedDM={selectedDM}
+                    setSelectedDM={setSelectedDM}
+                    userList={userList}
+                />
+            </div>
         </div>
-    )
+    );
 }
