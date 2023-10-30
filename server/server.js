@@ -8,8 +8,10 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 
 /* router list */
-const dmPage = require("./routers/DMRouter");
-const loginPage = require("./routers/LoginRouter");
+const dmRouter = require("./routers/DMRouter");
+const userRouter = require("./routers/UserRouter");
+const loginRouter = require("./routers/LoginRouter");
+const boardRouter = require("./routers/BoardRouter");
 
 const app = express();
 const server = http.createServer(app);
@@ -48,8 +50,10 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use("/dmPage", dmPage(db));
-app.use("/loginPage", loginPage(db));
+app.use("/dmPage", dmRouter(db));
+app.use("/user", userRouter(db));
+app.use("/loginPage", loginRouter(db));
+app.use("/boardPage", boardRouter(db));
 
 /* socket setting */
 const userSocketMap = new Map();

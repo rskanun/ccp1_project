@@ -1,10 +1,12 @@
 import React from "react";
 import "./Top.css";
 
-function Top(props) {
+import logo from "./img/outsourcing.jpg"
+
+function Top() {
     return(
         <div className="top">
-            <img src="/img/outsourcing.JPG"/>
+            <img src={logo}/>
             <a>로그인</a>
             <a>마이페이지</a>
             <a>유저 검색</a>
