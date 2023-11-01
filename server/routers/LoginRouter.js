@@ -52,6 +52,7 @@ const login = (db) => {
             
             return res.status(200).json({ id: decoded });
         } catch (e) {
+            console.log(e);
             return res.status(401).json({ message: "Invalid Token"});
         }
     })

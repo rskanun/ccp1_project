@@ -4,6 +4,10 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
+// javaScript
+import Top from "../main_page/Top";
+import Bottom from "../main_page/Bottom";
+
 import './LoginPage.css';
 
 function LoginPage() {
@@ -21,7 +25,7 @@ function LoginPage() {
             })
             .then((res) => {
                 // 로그인에 성공했을 경우 쿠키에 사용자 정보를 json 형태로 저장
-                setCookie('loginID', res.data.token);
+                setCookie('loginID', res.data.token, { path: '/' });
     
                 // 소캣으로 해당 아이디 전송
                 socketIO.emit("login", id);

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // javaScript
+import Top from "../main_page/Top";
+import Bottom from "../main_page/Bottom";
 import ChatList from "./ChatList";
 import Chatting from "./Chatting";
 
@@ -12,7 +14,7 @@ import './DM.css';
 
 function DmPage() {
     const [id, setID] = useState('');
-    const [cookies, removeCookie] = useCookies(['loginID']);
+    const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,7 +25,7 @@ function DmPage() {
                 const res = await axios.post(`${process.env.REACT_APP_LOGIN_API_URL}/loginCheck`, {token: token});
                 setID(res.data.id);
             } catch (e) {
-                removeCookie('loginID'); // 쿠키 삭제
+                removeCookie('loginID', { path: '/' }); // 쿠키 삭제
                 navigate('/login'); // 로그인 페이지 이동
             }
         }
@@ -31,8 +33,7 @@ function DmPage() {
         userCheck();
     }, [cookies.loginID]);
 
-    return id ? (<DM loginID={id}/>)
-        : null;
+    return id ? (<DM loginID={id}/>) : null;
 }
 export default DmPage;
 

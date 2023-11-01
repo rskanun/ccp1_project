@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 
@@ -9,6 +10,7 @@ function BoardList() {
     const [boardList, setBoardList] = useState([]);
     const [boardType, setBoardType] = useState('normal');
     const [selectedPosts, setSelectedPosts] = useState([]);
+    const navigation = useNavigate();
 
     // 게시판 목록 가져오기
     useEffect(() => {
@@ -45,6 +47,7 @@ function BoardList() {
                 setSelectedPosts([]); // 선택 항목 초기화
 
                 alert("게시판 삭제가 완료되었습니다.");
+                navigation('/board/list');
             }
         } catch (error) {
             // 에러 처리

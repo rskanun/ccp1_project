@@ -8,7 +8,6 @@ import { useLocation } from "react-router-dom";
 
 function BoardWrite() {
     const [id, setID] = useState('');
-    const [nickname, setNickname] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
     const navigate = useNavigate();
 
@@ -22,7 +21,7 @@ function BoardWrite() {
 
                 setID(id);
             } catch (e) {
-                removeCookie('loginID'); // 쿠키 삭제
+                removeCookie('loginID', { path: '/' }); // 쿠키 삭제
                 navigate('/login'); // 로그인 페이지 이동
             }
         }
@@ -30,9 +29,7 @@ function BoardWrite() {
         userCheck();
     }, [cookies.loginID]);
 
-    return id ? 
-        (<PostingPage id={id}/>)
-        : null;
+    return id ? (<PostingPage id={id}/>) : null;
 }
 
 function PostingPage({id}) {
@@ -90,7 +87,7 @@ function PostingPage({id}) {
             <Button variant="info" onClick={handlePosting}>
                 작성완료
             </Button>
-            <a to="/board/list">
+            <a href="/board/list">
                 <Button variant="secondary">
                     취소
                 </Button>
