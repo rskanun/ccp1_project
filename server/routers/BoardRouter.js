@@ -23,7 +23,7 @@ const Board = (db) => {
 
     router.delete("/api/deletePosts", async (req, res) => {
         try {
-            const boards = req.query.selectedBoards;
+            const boards = req.query.selectedPosts;
             for (const board of boards) {
                 const find = await db
                     .collection("Post")
@@ -39,6 +39,7 @@ const Board = (db) => {
 
             return res.status(200).json({ message: "게시판 삭제 완료"});
         } catch(e) {
+            console.log(e);
             return res.status(500).json({ message: 'Server Error!!'});
         }
     });

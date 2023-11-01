@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import React from "react";
 import { CookiesProvider } from 'react-cookie';
 
@@ -17,17 +17,24 @@ function App() {
   return (
     <CookiesProvider>
       <BrowserRouter>
-      <Top/>
-      <Routes>
-        <Route path="/" element={<Main/>}/>
-        <Route path="/login/*" element={<Login/>}/>
-        <Route path="/login/FindAcc" element={<FindAcc/>}/>
-        <Route path="/DM/*" element={<DM/>}/>
-        <Route path="/board/list/*" element={<BoardList/>}/>
-        <Route path="/board/write/*" element={<BoardWrite/>}/>
-      </Routes>
-      <Bottom/>
-    </BrowserRouter>
+        <Routes>
+          <Route path="" element={
+              <div>
+                <Top />
+                <Outlet />
+                <Bottom />
+              </div>
+            }
+          >
+            <Route path="" element={<Main />} />
+            <Route path="login/*" element={<Login />} />
+            <Route path="DM/*" element={<DM />} />
+            <Route path="board/list/*" element={<BoardList />} />
+            <Route path="board/write/*" element={<BoardWrite />} />
+          </Route>
+          <Route path="login/FindAcc" element={<FindAcc />} />
+        </Routes>
+      </BrowserRouter>
     </CookiesProvider>
   );
 }

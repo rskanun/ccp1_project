@@ -12,7 +12,7 @@ import './DM.css';
 
 function DmPage() {
     const [id, setID] = useState('');
-    const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
+    const [cookies, removeCookie] = useCookies(['loginID']);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,7 +29,7 @@ function DmPage() {
         }
 
         userCheck();
-    }, []);
+    }, [cookies.loginID]);
 
     return id ? (<DM loginID={id}/>)
         : null;

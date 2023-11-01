@@ -7,7 +7,8 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 function BoardWrite() {
-    const [user, setUser] = useState({});
+    const [id, setID] = useState('');
+    const [nickname, setNickname] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
     const navigate = useNavigate();
 
@@ -19,10 +20,7 @@ function BoardWrite() {
                 const res = await axios.post(`${process.env.REACT_APP_LOGIN_API_URL}/loginCheck`, {token: token});
                 const id = res.data.id;
 
-                const userInfo = await axios.get(`${process.env.REACT_APP_USER_API_URL}/getUserInfo`, {userID:id});
-                const nickname = userInfo.data.Nickname;
-
-                setUser({id, nickname});
+                setID(id);
             } catch (e) {
                 removeCookie('loginID'); // 쿠키 삭제
                 navigate('/login'); // 로그인 페이지 이동
@@ -30,27 +28,31 @@ function BoardWrite() {
         }
 
         userCheck();
-    }, []);
+    }, [cookies.loginID]);
 
-    return (user.id && user.nickname) ? 
-        (<PostingPage user={user}/>)
+    return id ? 
+        (<PostingPage id={id}/>)
         : null;
 }
 
-function PostingPage({user}) {
+function PostingPage({id}) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const location = useLocation();
     const navigate = useNavigate();
 
     const handlePosting = async () => {
+        const userInfo = await axios.get(`${process.env.REACT_APP_USER_API_URL}/getUserInfo`, {
+            params: {userID:id}
+        });
+        const nickname = userInfo.data.Nickname;
         const boardType = new URLSearchParams(location.search).get('boardType')
         await axios.post(`${process.env.REACT_APP_BOARD_API_URL}/posting`, {
             boardType,
             title,
             content,
-            id: user.id,
-            nickname: user.nickname
+            id: id,
+            nickname: nickname
         }).then(() => {
             setTitle("");
             setContent("");

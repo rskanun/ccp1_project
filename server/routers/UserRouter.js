@@ -3,12 +3,20 @@ const router = express.Router();
 
 const User = (db) => {
     router.get("/api/getUserInfo", async (req, res) => {
-        try {
-            const user = await db
-            .collection("User")
-            .findOne({"User_ID": req.body.userID});
+        const id = req.query.userID;
 
-            return res.json(user);
+        try {
+            if(id) {
+                const user = await db
+                    .collection("User")
+                    .findOne({"ID": id});
+
+                if(user) return res.json(user);
+                else return res.status(404).json({ message: '아이디를 찾지 못했습니다!' });
+            }
+            else {
+                return res.status(404).json({ message: '아이디가 없습니다!' });
+            }
         } catch(e) {
             console.log(e);
             return res.status(500).json({ message: 'Server Error!!'});
