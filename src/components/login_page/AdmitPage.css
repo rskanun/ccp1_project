@@ -1,0 +1,19 @@
+.title{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.box{
+    margin-top: 40px;
+    width: 1000px;
+    height: 200px;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+.admitContainer {
+    overflow-y: scroll;
+    max-height: 70vh;
+}

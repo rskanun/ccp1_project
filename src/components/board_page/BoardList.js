@@ -47,7 +47,6 @@ function BoardList() {
                 setSelectedPosts([]); // 선택 항목 초기화
 
                 alert("게시판 삭제가 완료되었습니다.");
-                navigation('/board/list');
             }
         } catch (error) {
             // 에러 처리
