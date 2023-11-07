@@ -87,7 +87,7 @@ const login = (db) => {
                 
                 return res.status(200).json({ id: maskString(findID) });
             }
-            else return res.status(200).json({ id: null });
+            else return res.status(404).json({ id: null });
         } catch (e) {
             console.log(e);
             return res.status(500).json({ message: "Server Error!!"})
@@ -126,7 +126,7 @@ const login = (db) => {
                 
                 return res.status(200).json({ password: maskString(findPassword) });
             }
-            else return res.status(200).json({ password: null });
+            else return res.status(404).json({ password: null });
         } catch (e) {
             return res.status(500).json({ message: "Server Error!!" });
         }
