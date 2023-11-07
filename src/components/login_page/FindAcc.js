@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 import FindResult from './FindResult';
 
 import './FindAcc.css';
-import axios from 'axios';
 
 function FindAcc() {
   const [isIdSelected, setIsIdSelected] = useState(true);

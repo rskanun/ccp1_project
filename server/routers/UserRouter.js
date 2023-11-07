@@ -22,6 +22,45 @@ const User = (db) => {
             return res.status(500).json({ message: 'Server Error!!'});
         }
     });
+    
+    router.get("/api/checkInvalidID", async (req, res) => {
+        const id = req.query.id;
+        const isInvalid = await db
+            .collection("User")
+            .findOne({"ID": id});
+
+        if(!isInvalid) res.status(200).json({ message: "유효한 아이디입니다."});
+        else res.status(401).json({ message: "유효하지 않은 아이디입니다!"});
+    });
+
+    router.get("/api/checkInvalidNickname", async (req, res) => {
+        const nickname = req.query.nickname;
+        const isInvalid = await db
+            .collection("User")
+            .findOne({"Nickname": nickname});
+
+        if(!isInvalid) res.status(200).json({ message: "유효한 닉네임입니다."});
+        else res.status(401).json({ message: "유효하지 않은 닉네임입니다!"});
+    });
+
+    router.post("/api/registerUser", async (req, res) => {
+        const {id, email, password, nickname} = req.body;
+
+        try {
+            await db.collection("User")
+                .insertOne({
+                    "ID": id,
+                    "Password": password,
+                    "Nickname": nickname,
+                    "Email": email,
+                    "Permission_Level": 0
+                });
+
+            res.status(201).json({ message: "회원 등록이 완료되었습니다." });
+        } catch (error) {
+            res.status(500).json({ error: "회원 등록 중 오류가 발생했습니다." });
+        }
+    })
 
     return router;
 }

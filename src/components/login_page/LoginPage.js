@@ -47,8 +47,7 @@ function LoginPage() {
     }
 
     const openJoinWindow = () => {
-        const newWindowUrl = ''; //회원가입 페이지
-        window.open(newWindowUrl, '_blank', 'width=400,height=300');
+        navigate('/register/admitCheck');
     };
 
     const openFindAccWindow = () => {
