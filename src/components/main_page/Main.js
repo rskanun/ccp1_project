@@ -1,5 +1,5 @@
 import React from "react";
-import "./MainPage.css";
+import "./Main.css";
 import fileImg from "./fileImg.png";
 import testImg from "./testImg.png";
 

@@ -6,13 +6,13 @@
 
 
 
-.wholeBox{
+.wholeMainBox{
     width: 1700px;
     height: 1800px;
     background-color: #fdfdfd;
 }
 
-.searchBox {
+.searchMainBox {
     width: 75%;
     height: 30%; 
     margin: 0 auto;
