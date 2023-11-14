@@ -62,6 +62,17 @@ const User = (db) => {
         }
     })
 
+    router.get("/api/findUsersInfo", async (req, res) => {
+        const nickname = req.query.nickname;
+        const usersInfo = await db
+            .collection("User")
+            .find({ "Nickname": { $regex: nickname, $options: 'i' } })
+            .toArray();
+
+        if(usersInfo.length > 0) res.status(200).json(usersInfo);
+        else res.status(404).json({ message: "회원을 찾지 못했습니다!" });
+    })
+
     return router;
 }
 

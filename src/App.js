@@ -12,6 +12,7 @@ import BoardList from "./components/board_page/BoardList";
 import BoardWrite from "./components/board_page/BoardWrite";
 import Register from "./components/login_page/RegisterPage";
 import Admit from "./components/login_page/AdmitPage";
+import FindUser from "./components/main_page/FindMem";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -35,6 +36,7 @@ function App() {
             <Route path="DM/*" element={<DM />} />
             <Route path="board/list/*" element={<BoardList />} />
             <Route path="board/write/*" element={<BoardWrite />} />
+            <Route path="findUser/*" element={<FindUser />} />
           </Route>
           <Route path="login/FindAcc" element={<FindAcc />} />
         </Routes>

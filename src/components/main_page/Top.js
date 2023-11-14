@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import axios from 'axios';
 
 import "./Top.css";
 
@@ -16,7 +14,7 @@ function Top() {
 
     return(
         <div className="top">
-            <a href="/board/list">
+            <a href="/">
                 <img src={logo} alt="Logo" />
             </a>
             {cookies.loginID ? (
@@ -24,8 +22,12 @@ function Top() {
             ) : (
                 <a href="/login" className='menu'>로그인</a>
             )}
-            <a className='menu'>마이페이지</a>
-            <a className='menu'>유저 검색</a>
+            {cookies.loginID ? (
+                <a className='menu'>마이페이지</a>
+            ) : 
+                null
+            }
+            <a href='/findUser' className='menu'>유저 검색</a>
             {cookies.loginID ? (
                 <a href='/DM' className='menu'>DM</a>
             ) : 
