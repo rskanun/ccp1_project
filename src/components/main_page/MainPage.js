@@ -1,7 +1,7 @@
 import React from "react";
 import "./MainPage.css";
-import fileImg from "./fileImg.png";
-import testImg from "./testImg.png";
+import fileImg from "./img/fileImg.jpg";
+import testImg from "./img/testImg.png";
 
 function Main(props) {
 
@@ -17,7 +17,7 @@ function Main(props) {
     return(
         <div className="wholeMainBox">
             <div className="searchMainBox">
-                <div className="search">
+                <div className="searchInMain">
                     <input type="text" className="searchMainBar" placeholder="원하는 의뢰를 찾아보세요!"></input>
                 </div>
                 <div className="categoriesInMain">
@@ -68,58 +68,58 @@ function Main(props) {
 
                 <div className="requestMainBar">
 
-                    <div className="request" onClick={() => goToReq(1)}>
+                    <div className="requestInMain" onClick={() => goToReq(1)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
-                        <div className="requestInfo">
-                            <div className="requestName"><strong>프로젝트 명 - Request1</strong></div>
+                        <div className="requestInMainInfo">
+                            <div className="requestInMainName"><strong>프로젝트 명 - Request1</strong></div>
                             <div className="requestCon"><strong>#Request1Con</strong></div>
                         </div>
                     </div>
 
 
                     
-                    <div className="request" onClick={() => goToReq(2)}>
+                    <div className="requestInMain" onClick={() => goToReq(2)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
-                        <div className="requestInfo">
-                            <div className="requestName"><strong>프로젝트 명 - Request2</strong></div>
+                        <div className="requestInMainInfo">
+                            <div className="requestInMainName"><strong>프로젝트 명 - Request2</strong></div>
                             <div className="requestCon"><strong>#Request2Con</strong></div>
                         </div>
                     </div>
 
 
                     
-                    <div className="request" onClick={() => goToReq(3)}>
+                    <div className="requestInMain" onClick={() => goToReq(3)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
-                        <div className="requestInfo">
-                            <div className="requestName"><strong>프로젝트 명 - Request3</strong></div>
+                        <div className="requestInMainInfo">
+                            <div className="requestInMainName"><strong>프로젝트 명 - Request3</strong></div>
                             <div className="requestCon"><strong>#Request3Con</strong></div>
                         </div>
                     </div>
 
-                    <div className="request" onClick={() => goToReq(4)}>
+                    <div className="requestInMain" onClick={() => goToReq(4)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
-                        <div className="requestInfo">
-                            <div className="requestName"><strong>프로젝트 명 - Request4</strong></div>
+                        <div className="requestInMainInfo">
+                            <div className="requestInMainName"><strong>프로젝트 명 - Request4</strong></div>
                             <div className="requestCon"><strong>#Request4Con</strong></div>
                         </div>
                     </div>
 
 
                     
-                    <div className="request" onClick={() => goToReq(5)}>
+                    <div className="requestInMain" onClick={() => goToReq(5)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
-                        <div className="requestInfo">
-                            <div className="requestName"><strong>프로젝트 명 - Request5</strong></div>
+                        <div className="requestInMainInfo">
+                            <div className="requestInMainName"><strong>프로젝트 명 - Request5</strong></div>
                             <div className="requestCon"><strong>#Request5Con</strong></div>
                         </div>
                     </div>
 
 
                     
-                    <div className="request" onClick={() => goToReq(6)}>
+                    <div className="requestInMain" onClick={() => goToReq(6)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
-                        <div className="requestInfo">
-                            <div className="requestName"><strong>프로젝트 명 - Request6</strong></div>
+                        <div className="requestInMainInfo">
+                            <div className="requestInMainName"><strong>프로젝트 명 - Request6</strong></div>
                             <div className="requestCon"><strong>#Request6Con</strong></div>
                         </div>
                     </div>
@@ -127,8 +127,7 @@ function Main(props) {
 
                 </div>
             </div>
-
-           
+        
             
         </div>
 

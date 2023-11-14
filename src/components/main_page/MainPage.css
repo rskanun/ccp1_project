@@ -1,11 +1,3 @@
-.top > a{
-    float: right;
-    margin-top: 40px;
-    margin-right: 40px;
-}
-
-
-
 .wholeMainBox{
     width: 1700px;
     height: 1800px;
@@ -21,17 +13,16 @@
     border-left: 10px solid;
     border-right: 10px solid;
     border-image: linear-gradient(to bottom,  #fff 0%, #fff 30%,  #343434 55%, #fff 80%, #fff 100%) 1;
-    
 }
 
-.search {
+.searchInMain {
     width: 60%; 
     height: 10%;
     margin: 10% auto;
     border: solid 8px black;
 }
 
-.searchBar{
+.searchMainBar{
     width: 99.5%; 
     height: 100%;
     border: none;
@@ -40,13 +31,13 @@
     font-size: 24px;
 }
 
-.categories{
+.categoriesInMain{
     display: flex;
     width: 100%;
     height: 50%;
 }
 
-.category{
+.categoryInMain{
     width: 16%;
     height: 80%;
     margin-left: 1%;
@@ -69,7 +60,7 @@
     font-weight: bold;
 }
 
-.category:hover > .catePic{
+.categoryInMain:hover > .catePic{
     width: 90%;
     height: 90%;
     margin-left: 5%;
@@ -80,13 +71,13 @@
     color:#efefef;
 }
 
-.category:hover{
+.categoryInMain:hover{
     background-color: #bcbcbc;
     box-shadow: 0px 10px 30px rgba(122, 122, 122, 1);
 }
 
 
-.searchBar::placeholder {
+.searchMainBar::placeholder {
     font-weight: bold;
     font-size: 15px;
 }
@@ -113,7 +104,7 @@
     background: linear-gradient(to right, #343434 0%, #343434 30%,  #fff 50%, #343434 70%, #343434 100%);
 }
 
-.requestBar{
+.requestMainBar{
     display: flex;
     width: 99.7%;
     height: 90%;
@@ -126,19 +117,19 @@
     flex-wrap: wrap;
 }
 
-.request{
+.requestInMain{
     width:33%;
     margin: 0 auto;
     justify-content: center;
     text-align: center; 
 }
 
-.request :hover {
+.requestInMain :hover {
     cursor: pointer;
     text-decoration: underline 3px; 
 }
 
-.requestInfo{
+.requestInMainInfo{
     width: 419px;
     position: relative;
     justify-content: center;
@@ -146,7 +137,7 @@
 }
 
 
-.requestName{
+.requestInMainName{
     justify-content: center;
     text-align: center; 
     height: 20px;
@@ -157,20 +148,3 @@
     justify-content: center;
 }
 
-
-
-
-
-
-.bottom{
-    border: 1px solid black;
-    width: 1400px;
-    height: 140px;
-    margin: auto;
-    background-color: black;
-    color: white;
-    padding: 10px;
-}
-.bottom > a{
-    float: right;
-}
