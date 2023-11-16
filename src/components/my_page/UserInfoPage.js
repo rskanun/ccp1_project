@@ -2,48 +2,50 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 
-import "./RegisterPage.css";
+import "./UserInfoPage.css";
 
-const validate = (input) => {  
+const validate = (input) => {    
     const {id,isValidID,email,password,nickname,isValidNickname} = input
     const errors = {}
 
-    console.log(input);
-    console.log(id);
-
-    if(id === ''){
+    if(!id){
         errors.id="아이디가 입력되지 않았습니다."
-    } else if(id && !isValidID) {
+    } else if(!isValidID) {
         errors.id="유효하지 않은 아이디입니다."
     }
 
     if(email === ''){
         errors.email="이메일이 입력되지 않았습니다."
-    } else if(email && !/^[a-z0-9%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i.test(email)){
+    } else if(!/^[a-z0-9%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i.test(email)){
         errors.email = "입력된 이메일이 유효하지 않습니다."
     }
 
-    if(password === ''){
+    if(!password){
         errors.password="비밀번호가 입력되지 않았습니다."
-    } else if(password && password.length < 8){
+    } else if(password.length < 8){
         // errors.password = "8자 이상의 패스워드를 사용해야 합니다."
     }
 
     if(nickname === ''){
         errors.nickname="닉네임이 입력되지 않았습니다."
-    } else if(nickname && nickname.length > 9){
+    } else if(nickname.length > 9){
         errors.nickname="닉네임이 너무 깁니다 9자 이하의 닉네임을 사용해주세요."
-    } else if(nickname && !isValidNickname) {
+    } else if(!isValidNickname) {
         errors.nickname="유효하지 않은 닉네임입니다."
     }
- 
+
     return errors 
 }
 
-function Register() {
-    const [userInfo, setUserInfo] = useState([]);
-    const [submit,setSubmit] = useState(false);
-    const [errors,setErrors] = useState({});
+function UserInfoPage() {
+    const [id, setID] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [nickname, setNickname] = useState('')
+    const [submit,setSubmit] = useState(false)
+    const [isValidID, setValidID] = useState(false)
+    const [isValidNickname, setValidNickname] = useState(false)
+    const [errors,setErrors] = useState({})
 
     const navigate = useNavigate();
 
@@ -53,10 +55,10 @@ function Register() {
         if (Object.keys(errors).length === 0) {
             try {
                 const response = await axios.post(`${process.env.REACT_APP_USER_API_URL}/registerUser`, {
-                    id: userInfo.id,
-                    email: userInfo.email,
-                    password: userInfo.password,
-                    nickname: userInfo.nickname
+                    id,
+                    email,
+                    password,
+                    nickname
                 });
     
                 if (response.status === 201) {
@@ -76,20 +78,15 @@ function Register() {
                     params: {id}
                 });
                 if (response.status === 200) {
-                    const isValidID = true;
-                    setUserInfo({...userInfo, id, isValidID});
-                    setErrors(validate({...userInfo, id, isValidID}));
+                    setValidID(true);
                 }
             } catch (e) {
-                const isValidID = false;
-                setUserInfo({...userInfo, id, isValidID});
-                setErrors(validate({...userInfo, id, isValidID}));
+                setValidID(false);
+            } finally {
+                setID(id);
             }
         }
-        else {
-            setUserInfo({...userInfo, id});
-            setErrors(validate({...userInfo, id}));
-        }
+        else setID(id);
     }
 
     const checkNickname = async (nickname) => {
@@ -99,25 +96,31 @@ function Register() {
                     params: {nickname}
                 });
                 if (response.status === 200) {
-                    const isValidNickname = true;
-                    setUserInfo({...userInfo, nickname, isValidNickname});
-                    setErrors(validate({...userInfo, nickname, isValidNickname}));
+                    setValidNickname(true);
                 }
             } catch (e) {
-                const isValidNickname = false;
-                setUserInfo({...userInfo, nickname, isValidNickname});
-                setErrors(validate({...userInfo, nickname, isValidNickname}));
+                setValidNickname(false);
+            } finally {
+                setNickname(nickname);
             }
         }
-        else {
-            setUserInfo({...userInfo, nickname});
-            setErrors(validate({...userInfo, nickname}));
-        }
+        else setNickname(nickname);
     }
     
     // form 체크
     useEffect(()=>{
-        if(Object.keys(errors).length > 0){
+        const input = {
+            id,
+            isValidID,
+            email,
+            password,
+            nickname,
+            isValidNickname
+        }
+        const newErrors = validate(input);
+        setErrors(newErrors);
+
+        if(Object.keys(newErrors).length > 0){
             setSubmit(false)
         }
         else {
@@ -125,15 +128,15 @@ function Register() {
             setSubmit(true)
         }
         
-    },[errors])
+    },[id, isValidID, email, password, nickname, isValidNickname])
 
     return(
-        <form className='register_form' onSubmit={handleSubmit}>
+        <form className='info_form' onSubmit={handleSubmit}>
             <ul>
                 <li>
                     <label htmlFor="id"></label> 
                     <input 
-                        className={`register_input ${errors.id ? 'error' : ''}`}
+                        className={`info_input ${errors.id ? 'error' : ''}`}
                         type='text'
                         placeholder='&nbsp;&nbsp;아이디' 
                         id="id" 
@@ -145,32 +148,24 @@ function Register() {
                 <li>
                     <label htmlFor="email"></label> 
                     <input 
-                        className={`register_input ${errors.email ? 'error' : ''}`} 
+                        className={`info_input ${errors.email ? 'error' : ''}`} 
                         type='email' 
                         placeholder='&nbsp;&nbsp;이메일' 
                         id="email" 
                         name="email" 
                         autoComplete='off' 
-                        onChange={(e) => {
-                            const email = e.target.value;
-                            setUserInfo({...userInfo, email});
-                            setErrors(validate({...userInfo, email}));
-                        }} 
+                        onChange={(e) => setEmail(e.target.value)} 
                     />
                 </li>
                 <li>
                     <label htmlFor="password"></label>
                     <input 
-                        className={`register_input ${errors.password ? 'error' : ''}`} 
+                        className={`info_input ${errors.password ? 'error' : ''}`} 
                         type='password' 
                         placeholder='&nbsp;&nbsp;비밀번호' 
                         id="password" 
                         name="password" 
-                        onChange={(e) => {
-                            const password = e.target.value;
-                            setUserInfo({...userInfo, password});
-                            setErrors(validate({...userInfo, password}));
-                        }} 
+                        onChange={(e) => setPassword(e.target.value)} 
                     />
                 </li>
                 {errors.id && <span>{errors.id}</span>} 
@@ -180,7 +175,7 @@ function Register() {
                 <li>
                     <label htmlFor="nickname">&nbsp;</label>
                     <input 
-                        className={`register_input ${errors.nickname ? 'error' : ''}`} 
+                        className={`info_input ${errors.nickname ? 'error' : ''}`} 
                         type='nickname' 
                         placeholder='&nbsp;&nbsp;이름을(를) 입력하세요' 
                         id="nickname" 
@@ -192,7 +187,7 @@ function Register() {
                 {errors.nickname && <span>{errors.nickname}</span>}
                 <li>
                     <input 
-                        className='register_input submit_button' 
+                        className='info_input submit_button' 
                         type='submit' 
                         value="가입하기" 
                         disabled={!submit} 
@@ -203,4 +198,4 @@ function Register() {
     )
 }
 
-export default Register
+export default UserInfoPage

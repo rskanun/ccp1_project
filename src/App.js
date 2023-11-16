@@ -13,6 +13,7 @@ import BoardWrite from "./components/board_page/BoardWrite";
 import Register from "./components/login_page/RegisterPage";
 import Admit from "./components/login_page/AdmitPage";
 import FindUser from "./components/main_page/FindMem";
+import MyPage from "./components/my_page/MyPage";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -37,8 +38,9 @@ function App() {
             <Route path="board/list/*" element={<BoardList />} />
             <Route path="board/write/*" element={<BoardWrite />} />
             <Route path="findUser/*" element={<FindUser />} />
+            <Route path="mypage/*" element={<MyPage />} />
           </Route>
-          <Route path="login/FindAcc" element={<FindAcc />} />
+          <Route path="login/findAcc" element={<FindAcc />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

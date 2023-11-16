@@ -51,7 +51,7 @@ function LoginPage() {
     };
 
     const openFindAccWindow = () => {
-        const newWindowUrl = './login/FindAcc'; //아이디 또는 비번 찾기 페이지
+        const newWindowUrl = './login/findAcc'; //아이디 또는 비번 찾기 페이지
         window.open(newWindowUrl, '_blank', 'width=450, height=350');
     };
 

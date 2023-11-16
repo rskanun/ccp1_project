@@ -23,7 +23,7 @@ function Top() {
                 <a href="/login" className='menu'>로그인</a>
             )}
             {cookies.loginID ? (
-                <a className='menu'>마이페이지</a>
+                <a href='/mypage' className='menu'>마이페이지</a>
             ) : 
                 null
             }

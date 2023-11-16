@@ -12,7 +12,7 @@ const User = (db) => {
                     .findOne({"ID": id});
 
                 if(user) return res.json(user);
-                else return res.status(404).json({ message: '아이디를 찾지 못했습니다!' });
+                else return res.status(404).json({ message: '해당 아이디를 가진 유저를 찾지 못했습니다!' });
             }
             else {
                 return res.status(404).json({ message: '아이디가 없습니다!' });
@@ -71,6 +71,27 @@ const User = (db) => {
 
         if(usersInfo.length > 0) res.status(200).json(usersInfo);
         else res.status(404).json({ message: "회원을 찾지 못했습니다!" });
+    })
+
+    router.get("/api/getUserPermissionLevel", async (req, res) => {
+        const id = req.query.id;
+
+        try {
+            if(id) {
+                const user = await db
+                    .collection("User")
+                    .findOne({"ID": id});
+
+                if(user) return res.json(user.Permission_Level);
+                else return res.status(404).json({ message: '해당 아이디를 가진 유저를 찾지 못했습니다!' });
+            }
+            else {
+                return res.status(404).json({ message: '아이디가 없습니다!' });
+            }
+        } catch(e) {
+            console.log(e);
+            return res.status(500).json({ message: 'Server Error!!'});
+        }
     })
 
     return router;
