@@ -6,14 +6,17 @@ const cors = require("cors");
 const yaml = require("js-yaml");
 const fs = require("fs");
 const mongoose = require("mongoose");
+const multer = require("multer");
 
 /* router list */
 const dmRouter = require("./routers/DMRouter");
 const userRouter = require("./routers/UserRouter");
 const loginRouter = require("./routers/LoginRouter");
 const boardRouter = require("./routers/BoardRouter");
+const profileRouter = require("./routers/ProfileRouter");
 
 const app = express();
+const form_data = multer();
 const server = http.createServer(app);
 const io = socketIO(server, {
     cors: {
@@ -54,6 +57,7 @@ app.use("/dmPage", dmRouter(db));
 app.use("/user", userRouter(db));
 app.use("/loginPage", loginRouter(db));
 app.use("/boardPage", boardRouter(db));
+app.use("/Profile", profileRouter(db, form_data));
 
 /* socket setting */
 const userSocketMap = new Map();

@@ -9,11 +9,12 @@ import Login from "./components/login_page/LoginPage";
 import FindAcc from "./components/login_page/FindAcc";
 import DM from "./components/dm_page/DM";
 import BoardList from "./components/board_page/BoardList";
-import BoardWrite from "./components/board_page/BoardWrite";
+import WritePost from "./components/board_page/WritePost";
 import Register from "./components/login_page/RegisterPage";
 import Admit from "./components/login_page/AdmitPage";
 import FindUser from "./components/main_page/FindMem";
 import MyPage from "./components/my_page/MyPage";
+import ProfilePage from "./components/profile_page/UserProfile";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -36,9 +37,10 @@ function App() {
             <Route path="register/admitCheck/*" element={<Admit />} />
             <Route path="DM/*" element={<DM />} />
             <Route path="board/list/*" element={<BoardList />} />
-            <Route path="board/write/*" element={<BoardWrite />} />
+            <Route path="board/write/*" element={<WritePost />} />
             <Route path="findUser/*" element={<FindUser />} />
             <Route path="mypage/*" element={<MyPage />} />
+            <Route path="profile/*" element={<ProfilePage />} />
           </Route>
           <Route path="login/findAcc" element={<FindAcc />} />
         </Routes>

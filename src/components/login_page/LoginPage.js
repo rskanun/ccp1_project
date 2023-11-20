@@ -4,10 +4,6 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
-// javaScript
-import Top from "../main_page/Top";
-import Bottom from "../main_page/Bottom";
-
 import './LoginPage.css';
 
 function LoginPage() {
@@ -30,8 +26,8 @@ function LoginPage() {
                 // 소캣으로 해당 아이디 전송
                 socketIO.emit("login", id);
     
-                // 메인 페이지 이동
-                navigate('/');
+                // 이전 페이지 이동
+                navigate(-1);
             })
             .catch(() => {
                 setAlert("입력하신 정보와 일치하는 계정이 없습니다.");

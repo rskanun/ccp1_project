@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = (db) => {
     router.get("/api/getUserInfo", async (req, res) => {
-        const id = req.query.userID;
+        const id = req.query.id;
 
         try {
             if(id) {
@@ -73,25 +73,31 @@ const User = (db) => {
         else res.status(404).json({ message: "회원을 찾지 못했습니다!" });
     })
 
-    router.get("/api/getUserPermissionLevel", async (req, res) => {
-        const id = req.query.id;
+    router.post("/api/updateUserInfo", async (req, res) => {
+        const { id, email, password, nickname } = req.body;
+        console.log(req.body);
 
         try {
-            if(id) {
-                const user = await db
-                    .collection("User")
-                    .findOne({"ID": id});
+            const result = await db
+            .collection("User")
+            .findOneAndUpdate(
+                { ID: id },
+                { $set: {
+                    Password: password,
+                    Nickname: nickname,
+                    Email: email
+                }}
+            );
 
-                if(user) return res.json(user.Permission_Level);
-                else return res.status(404).json({ message: '해당 아이디를 가진 유저를 찾지 못했습니다!' });
-            }
-            else {
-                return res.status(404).json({ message: '아이디가 없습니다!' });
+            if (result.value) {
+                return res.status(200).json({ message: "유저 정보 업데이트 완료" });
+            } else {
+                return res.status(404).json({ message: "유저 정보를 찾을 수 없습니다." });
             }
         } catch(e) {
-            console.log(e);
-            return res.status(500).json({ message: 'Server Error!!'});
+            return res.status(500).json({ message: "서버 오류" });
         }
+
     })
 
     return router;

@@ -2,7 +2,6 @@ import React from 'react'
 
 const ManagerMypage = () => {
     return(
-        <>
         <div style={{textAlign:"center"}}>
             <div className="container">
                 <br></br>
@@ -16,7 +15,6 @@ const ManagerMypage = () => {
                 <br></br><br></br><br></br>
             </div>
         </div>
-        </>
     )
 }
 

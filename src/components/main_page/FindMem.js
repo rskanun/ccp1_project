@@ -7,15 +7,19 @@ const FindUser = () => {
     const [showMembers, setShowMembers] = useState(false);
   
     const handleSearch = async () => {
-      // Filter members based on the search query
-      const findMembers = await axios.get(`${process.env.REACT_APP_USER_API_URL}/findUsersInfo`, {
-        params: {
-            nickname: searchQuery
-        }
-      });
-
-      setMembers(findMembers.data);
-      setShowMembers(true);
+      try {
+        const findMembers = await axios.get(`${process.env.REACT_APP_USER_API_URL}/findUsersInfo`, {
+          params: {
+              nickname: searchQuery
+          }
+        });
+  
+        setMembers(findMembers.data);
+        setShowMembers(true);
+      } catch(e) {
+        setMembers([]);
+      }
+      
     };
   
     return (

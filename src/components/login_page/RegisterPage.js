@@ -8,9 +8,6 @@ const validate = (input) => {
     const {id,isValidID,email,password,nickname,isValidNickname} = input
     const errors = {}
 
-    console.log(input);
-    console.log(id);
-
     if(id === ''){
         errors.id="아이디가 입력되지 않았습니다."
     } else if(id && !isValidID) {
@@ -41,7 +38,7 @@ const validate = (input) => {
 }
 
 function Register() {
-    const [userInfo, setUserInfo] = useState([]);
+    const [userInfo, setUserInfo] = useState({});
     const [submit,setSubmit] = useState(false);
     const [errors,setErrors] = useState({});
 
@@ -117,14 +114,9 @@ function Register() {
     
     // form 체크
     useEffect(()=>{
-        if(Object.keys(errors).length > 0){
-            setSubmit(false)
+        if(userInfo.length > 0) {
+            setSubmit(Object.keys(errors).length === 0);
         }
-        else {
-            console.log("0 error")
-            setSubmit(true)
-        }
-        
     },[errors])
 
     return(
@@ -173,9 +165,9 @@ function Register() {
                         }} 
                     />
                 </li>
-                {errors.id && <span>{errors.id}</span>} 
-                {errors.email && <span>{errors.email}</span>} 
-                {errors.password && <span>{errors.password}</span>}
+                {errors.id && <span className='form_error'>아이디: {errors.id}</span>} 
+                {errors.email && <span className='form_error'>이메일: {errors.email}</span>} 
+                {errors.password && <span className='form_error'>비밀번호: {errors.password}</span>}
                 <div className='name_input'>이름</div>
                 <li>
                     <label htmlFor="nickname">&nbsp;</label>
@@ -189,7 +181,7 @@ function Register() {
                         onChange={(e) => checkNickname(e.target.value)} 
                     />
                 </li>
-                {errors.nickname && <span>{errors.nickname}</span>}
+                {errors.nickname && <span className='form_error'>{errors.nickname}</span>}
                 <li>
                     <input 
                         className='register_input submit_button' 

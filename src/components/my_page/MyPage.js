@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 import UserMypage from "./UserMypage";
 import ManagerMypage from "./ManagerMypage";
-import axios from "axios";
 
 function MyPage() {
-    const [isAdmin, setAdmin] = useState(false);
-    const [id, setID] = useState('');
+    const [userInfo, setUserInfo] = useState({});
     const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
     const navigate = useNavigate();
 
@@ -20,34 +19,34 @@ function MyPage() {
                 const res = await axios.post(`${process.env.REACT_APP_LOGIN_API_URL}/loginCheck`, {token: token});
                 const id = res.data.id;
 
-                setID(id);
-                permissionCheck(id);
+                getUserInfo(id);
             } catch (e) {
                 removeCookie('loginID', { path: '/' }); // 쿠키 삭제
                 navigate('/login'); // 로그인 페이지 이동
             }
         }
 
-        // 관리자 권한 체크
-        const permissionCheck = async (id) => {
-            try {
-                const permissionLevel = await axios.get(`${process.env.REACT_APP_USER_API_URL}/getUserPermissionLevel`, {
-                    params: {
-                        id
-                    }
-                });
-                setAdmin((permissionLevel >= 2) ? true : false);
-            } catch(e) {
-                console.log(e);
-            }
+        // 유저 정보 가져오기
+        const getUserInfo = async (id) => {
+            const userInfo = await axios.get(`${process.env.REACT_APP_USER_API_URL}/getUserInfo`, {
+                params: {
+                    id
+                }
+            });
+            setUserInfo({
+                id,
+                password: userInfo.data.Password,
+                nickname: userInfo.data.Nickname,
+                email: userInfo.data.Email,
+                isAdmin: (userInfo.data.Permission_Level >= 2)
+            });
         }
-
         userCheck();
     }, [cookies.loginID]);
 
-    return id ? (
-        isAdmin ? <ManagerMypage/> 
-            : <UserMypage id={id}/>
+    return userInfo ? (
+        userInfo.isAdmin ? <ManagerMypage/> 
+            : <UserMypage user={userInfo}/>
     ) : null;
 }
 export default MyPage;

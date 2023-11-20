@@ -42,13 +42,13 @@ function Main(props) {
                     <div id = "cat4" className="categoryInMain" onClick={() => goToCategory(4)}>
                         <div className="catePic">
                         <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
-                            <span>물품 제작</span>
+                            <span>물품</span>
                         </div>
                     </div>
                     <div id = "cat5" className="categoryInMain" onClick={() => goToCategory(5)}>
                         <div className="catePic">
                         <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
-                            <span>공연</span>
+                            <span>영상</span>
                         </div>
                     </div>
                     <div id = "cat6" className="categoryInMain" onClick={() => goToCategory(6)}>
@@ -71,7 +71,7 @@ function Main(props) {
                     <div className="requestInMain" onClick={() => goToReq(1)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
                         <div className="requestInMainInfo">
-                            <div className="requestInMainName"><strong>프로젝트 명 - Request1</strong></div>
+                            <div className="requestInMainName"><strong>《Request1》</strong></div>
                             <div className="requestCon"><strong>#Request1Con</strong></div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@ function Main(props) {
                     <div className="requestInMain" onClick={() => goToReq(2)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
                         <div className="requestInMainInfo">
-                            <div className="requestInMainName"><strong>프로젝트 명 - Request2</strong></div>
+                            <div className="requestInMainName"><strong>《Request2》</strong></div>
                             <div className="requestCon"><strong>#Request2Con</strong></div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@ function Main(props) {
                     <div className="requestInMain" onClick={() => goToReq(3)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
                         <div className="requestInMainInfo">
-                            <div className="requestInMainName"><strong>프로젝트 명 - Request3</strong></div>
+                            <div className="requestInMainName"><strong>《Request3》</strong></div>
                             <div className="requestCon"><strong>#Request3Con</strong></div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@ function Main(props) {
                     <div className="requestInMain" onClick={() => goToReq(4)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
                         <div className="requestInMainInfo">
-                            <div className="requestInMainName"><strong>프로젝트 명 - Request4</strong></div>
+                            <div className="requestInMainName"><strong>《Request4》</strong></div>
                             <div className="requestCon"><strong>#Request4Con</strong></div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@ function Main(props) {
                     <div className="requestInMain" onClick={() => goToReq(5)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
                         <div className="requestInMainInfo">
-                            <div className="requestInMainName"><strong>프로젝트 명 - Request5</strong></div>
+                            <div className="requestInMainName"><strong>《Request5》</strong></div>
                             <div className="requestCon"><strong>#Request5Con</strong></div>
                         </div>
                     </div>
@@ -119,7 +119,7 @@ function Main(props) {
                     <div className="requestInMain" onClick={() => goToReq(6)}>
                         <img src={fileImg} alt="파일 사진"  style={{ width: "380px", height: "300px" }}/>
                         <div className="requestInMainInfo">
-                            <div className="requestInMainName"><strong>프로젝트 명 - Request6</strong></div>
+                            <div className="requestInMainName"><strong>《Request6》</strong></div>
                             <div className="requestCon"><strong>#Request6Con</strong></div>
                         </div>
                     </div>
