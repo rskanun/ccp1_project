@@ -57,7 +57,7 @@ app.use("/dmPage", dmRouter(db));
 app.use("/user", userRouter(db));
 app.use("/loginPage", loginRouter(db));
 app.use("/boardPage", boardRouter(db));
-app.use("/Profile", profileRouter(db, form_data));
+app.use("/profile", profileRouter(db, form_data));
 
 /* socket setting */
 const userSocketMap = new Map();
