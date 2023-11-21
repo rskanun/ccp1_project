@@ -3,11 +3,9 @@ import "./MainPage.css";
 import fileImg from "./img/fileImg.jpg";
 import testImg from "./img/testImg.png";
 
-function Main(props) {
-
-
-    function goToCategory(categoryNumber) {
-        window.location.href = 'http://localhost:4000/mainPage/cat'+categoryNumber;
+function Main() {
+    function goToCategory(category) {
+        window.location.href = 'http://localhost:3000/board/list?category='+category;
     }
     
     function goToReq(reqNumber) {
@@ -21,37 +19,37 @@ function Main(props) {
                     <input type="text" className="searchMainBar" placeholder="원하는 의뢰를 찾아보세요!"></input>
                 </div>
                 <div className="categoriesInMain">
-                    <div id = "cat1" className="categoryInMain" onClick={() => goToCategory(1)}>
+                    <div id = "cat1" className="categoryInMain" onClick={() => goToCategory("illust")}>
                         <div className="catePic">
                             <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
                             <span>그림/일러스트</span>
                         </div>
                     </div>
-                    <div id = "cat2" className="categoryInMain"onClick={() => goToCategory(2)}>
+                    <div id = "cat2" className="categoryInMain"onClick={() => goToCategory("code")}>
                         <div className="catePic">
                         <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
                             <span>코딩</span>
                         </div>
                     </div>
-                    <div id = "cat3" className="categoryInMain" onClick={() => goToCategory(3)}>
+                    <div id = "cat3" className="categoryInMain" onClick={() => goToCategory("music")}>
                         <div className="catePic">
                         <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
                             <span>음악/작곡</span>
                         </div>
                     </div>
-                    <div id = "cat4" className="categoryInMain" onClick={() => goToCategory(4)}>
+                    <div id = "cat4" className="categoryInMain" onClick={() => goToCategory("goods")}>
                         <div className="catePic">
                         <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
                             <span>물품</span>
                         </div>
                     </div>
-                    <div id = "cat5" className="categoryInMain" onClick={() => goToCategory(5)}>
+                    <div id = "cat5" className="categoryInMain" onClick={() => goToCategory("video")}>
                         <div className="catePic">
                         <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
                             <span>영상</span>
                         </div>
                     </div>
-                    <div id = "cat6" className="categoryInMain" onClick={() => goToCategory(6)}>
+                    <div id = "cat6" className="categoryInMain" onClick={() => goToCategory("other")}>
                         <div className="catePic">
                         <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
                             <span>기타</span>

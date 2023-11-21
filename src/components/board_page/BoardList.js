@@ -8,23 +8,27 @@ import './BoardPage.css'
 
 function BoardList() {
     const [boardList, setBoardList] = useState([]);
-    const [boardType, setBoardType] = useState('normal');
+    const [category, setCategory] = useState('');
     const [selectedPosts, setSelectedPosts] = useState([]);
     const navigation = useNavigate();
 
     // 게시판 목록 가져오기
     useEffect(() => {
         const loadBoardList = async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const getCategory = urlParams.get('category');
             const list = await axios.get(`${process.env.REACT_APP_BOARD_API_URL}/getPostList`, {
                 params: {
-                    type: boardType
+                    type: getCategory
                 }
             });
+
             setBoardList(list.data);
+            setCategory(getCategory);
         }
 
         loadBoardList().then();
-    }, [setBoardType]);
+    }, [setCategory]);
 
     const handleDelete = async () => {
         if (selectedPosts.length === 0) {
@@ -78,7 +82,7 @@ function BoardList() {
                     ))}
                 </tbody>
             </Table>
-            <a href ={`/board/write?boardType=${boardType}`}>
+            <a href ={`/board/write?category=${category}`}>
                 <Button variant="info">글쓰기</Button>
             </a>
             <Button variant="danger" onClick={handleDelete}>삭제하기</Button>

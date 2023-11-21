@@ -8,7 +8,7 @@ const Board = (db) => {
         try {
             const postList = await db
                 .collection("Post")
-                .find({"Type":boardType})
+                .find({"Category":boardType})
                 .sort({ Register_Date: -1 })
                 .toArray();
 
@@ -83,17 +83,20 @@ const Board = (db) => {
     });
 
     router.post("/api/posting", async (req, res) => {
+        const {category, otherCategory, title, content, id, nickname} = req.body;
         try {
             const nowDate = new Date();
 
             await db.collection("Post")
                 .insertOne({
-                    Type: req.body.boardType,
-                    Title: req.body.title,
-                    Content: req.body.content,
-                    Register_Id: req.body.id,
-                    Register_Nickname: req.body.nickname,
-                    Register_Date: nowDate
+                    Title: title,
+                    Category: category,
+                    Other_Category: otherCategory,
+                    Content: content,
+                    Register_Id: id,
+                    Register_Nickname: nickname,
+                    Register_Date: nowDate,
+                    Request_Status: ""
                 });
 
             return res.status(200).json({ message: "게시글 올리기 완료" });

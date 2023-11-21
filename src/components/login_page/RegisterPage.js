@@ -74,17 +74,17 @@ function Register() {
                 });
                 if (response.status === 200) {
                     const isValidID = true;
-                    setUserInfo({...userInfo, id, isValidID});
+                    setUserInfo((prevInfo) => ({...prevInfo, id, isValidID}));
                     setErrors(validate({...userInfo, id, isValidID}));
                 }
             } catch (e) {
                 const isValidID = false;
-                setUserInfo({...userInfo, id, isValidID});
+                setUserInfo((prevInfo) => ({...prevInfo, id, isValidID}));
                 setErrors(validate({...userInfo, id, isValidID}));
             }
         }
         else {
-            setUserInfo({...userInfo, id});
+            setUserInfo((prevInfo) => ({...prevInfo, id}));
             setErrors(validate({...userInfo, id}));
         }
     }
@@ -97,26 +97,24 @@ function Register() {
                 });
                 if (response.status === 200) {
                     const isValidNickname = true;
-                    setUserInfo({...userInfo, nickname, isValidNickname});
+                    setUserInfo((prevInfo) => ({...prevInfo, nickname, isValidNickname}));
                     setErrors(validate({...userInfo, nickname, isValidNickname}));
                 }
             } catch (e) {
                 const isValidNickname = false;
-                setUserInfo({...userInfo, nickname, isValidNickname});
+                setUserInfo((prevInfo) => ({...prevInfo, nickname, isValidNickname}));
                 setErrors(validate({...userInfo, nickname, isValidNickname}));
             }
         }
         else {
-            setUserInfo({...userInfo, nickname});
+            setUserInfo((prevInfo) => ({...prevInfo, nickname}));
             setErrors(validate({...userInfo, nickname}));
         }
     }
     
     // form 체크
     useEffect(()=>{
-        if(userInfo.length > 0) {
-            setSubmit(Object.keys(errors).length === 0);
-        }
+        setSubmit(Object.keys(errors).length === 0 && Object.keys(userInfo).length === 6);
     },[errors])
 
     return(
@@ -145,7 +143,7 @@ function Register() {
                         autoComplete='off' 
                         onChange={(e) => {
                             const email = e.target.value;
-                            setUserInfo({...userInfo, email});
+                            setUserInfo((prevInfo) => ({...prevInfo, email}));
                             setErrors(validate({...userInfo, email}));
                         }} 
                     />
@@ -160,7 +158,7 @@ function Register() {
                         name="password" 
                         onChange={(e) => {
                             const password = e.target.value;
-                            setUserInfo({...userInfo, password});
+                            setUserInfo((prevInfo => ({...prevInfo, password})));
                             setErrors(validate({...userInfo, password}));
                         }} 
                     />

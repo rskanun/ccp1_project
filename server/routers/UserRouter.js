@@ -69,7 +69,12 @@ const User = (db) => {
             .find({ "Nickname": { $regex: nickname, $options: 'i' } })
             .toArray();
 
-        if(usersInfo.length > 0) res.status(200).json(usersInfo);
+        if(usersInfo.length > 0) {
+            res.status(200).json(usersInfo.map((user) => ({
+                id: user.ID,
+                nickname: user.Nickname
+            })));
+        }
         else res.status(404).json({ message: "회원을 찾지 못했습니다!" });
     })
 

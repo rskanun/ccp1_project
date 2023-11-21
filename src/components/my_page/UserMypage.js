@@ -7,7 +7,7 @@ function UserMypage({user}) {
   return (
     <div className="mypage-container">
       <h1>마이페이지</h1>
-      <p>현재 접속중인 계정: <a href='/profile'>{user.nickname}({user.id})</a></p>
+      <p>현재 접속중인 계정: <a href={'/profile?user='+user.id}>{user.nickname}({user.id})</a></p>
       <hr />
       <UserInfoPage user={user}/>
     </div>

@@ -53,10 +53,13 @@ const FindUser = () => {
 
   
 const MemberList = ({ members }) => {
+  console.log(members);
   return (
     <ul>
       {members.map((member, index) => (
-        <li key={index}>{member.Nickname}</li>
+        <li key={index}>
+          <a href={'/profile?user=' + member.id}>{member.nickname}</a>
+        </li>
       ))}
     </ul>
   );

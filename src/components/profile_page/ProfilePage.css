@@ -187,6 +187,14 @@
     margin-top: 16px;
 }
 
+.userPostIndex{
+    width: 10%;
+    height: 100%;
+    font-size: 18px;
+    border: none;
+    padding-top: 17px;
+}
+
 .userPostListTitle{
     width: 60%;
     height: 100%;
