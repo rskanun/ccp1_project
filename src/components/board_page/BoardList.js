@@ -17,9 +17,12 @@ function BoardList() {
         const loadBoardList = async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const getCategory = urlParams.get('category');
+            const getSearch = decodeURIComponent(urlParams.get('search'));
+
             const list = await axios.get(`${process.env.REACT_APP_BOARD_API_URL}/getPostList`, {
                 params: {
-                    type: getCategory
+                    type: getCategory,
+                    search: getSearch
                 }
             });
 

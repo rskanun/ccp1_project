@@ -1,22 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MainPage.css";
 import fileImg from "./img/fileImg.jpg";
 import testImg from "./img/testImg.png";
 
 function Main() {
-    function goToCategory(category) {
+    const [searchText, setSearchText] = useState("");
+
+    const goToCategory = (category) => {
         window.location.href = 'http://localhost:3000/board/list?category='+category;
     }
     
-    function goToReq(reqNumber) {
+    const goToReq = (reqNumber) => {
         window.location.href = 'http://localhost:4000/Req/'+reqNumber;
+    }
+
+    const handleSearch = (e) => {
+        if(e.key === 'Enter' && searchText !== '') {
+            const encodedSearch = encodeURIComponent(searchText);
+            window.location.href = 'http://localhost:3000/board/list?search=' + encodedSearch;
+        }
     }
 
     return(
         <div className="wholeMainBox">
             <div className="searchMainBox">
                 <div className="searchInMain">
-                    <input type="text" className="searchMainBar" placeholder="원하는 의뢰를 찾아보세요!"></input>
+                    <input 
+                        type="text" 
+                        className="searchMainBar" 
+                        placeholder="원하는 의뢰를 찾아보세요!" 
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onKeyDown={handleSearch}
+                    />
                 </div>
                 <div className="categoriesInMain">
                     <div id = "cat1" className="categoryInMain" onClick={() => goToCategory("illust")}>

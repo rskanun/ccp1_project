@@ -1,0 +1,75 @@
+.new-post-list {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    color: #000;
+  }
+  
+  .category-select-container {
+    margin-bottom: 10px;
+  }
+  
+  .category-select {
+    padding: 5px;
+    font-size: 14px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  .index-header, .category-header, .title-header, .author-header, .date-header {
+    font-weight: bold;
+  }
+  
+  .pagination-container {
+    margin-bottom: 20px;
+  }
+  
+  .page-button {
+    background-color: #ddd;
+    color: #000;
+    padding: 8px 16px;
+    margin-right: 5px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .page-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .search-container {
+    margin-bottom: 10px;
+  }
+  
+  .search-input {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .write-button-container {
+    margin-bottom: 20px;
+  }
+  
+  .write-button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }

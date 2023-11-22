@@ -4,11 +4,21 @@ const ObjectId = require("mongodb").ObjectId;
 
 const Board = (db) => {
     router.get("/api/getPostList", async (req, res) => {
-        const boardType = req.query.type;
+        const boardType = req.query.type || "other";
+        const searchText = req.query.search || "";
+
         try {
+            let query = {
+                "Title": { $regex: searchText, $options: 'i' }
+            };
+    
+            if (req.query.type) {
+                query["Category"] = req.query.type;
+            }
+    
             const postList = await db
                 .collection("Post")
-                .find({"Category":boardType})
+                .find(query)
                 .sort({ Register_Date: -1 })
                 .toArray();
 
@@ -46,7 +56,8 @@ const Board = (db) => {
                 return res.json({
                     posts: postList.map((post) => ({
                         title: post.Title,
-                        date: post.Register_Date
+                        date: post.Register_Date,
+                        pk: post._id
                     })),
                     currentPage: currentPage,
                     totalPages: Math.ceil(totalPosts / postsPerPage),
@@ -61,16 +72,16 @@ const Board = (db) => {
 
     router.delete("/api/deletePosts", async (req, res) => {
         try {
-            const boards = req.query.selectedPosts;
-            for (const board of boards) {
+            const posts = req.query.selectedPosts;
+            for (const post of posts) {
                 const find = await db
                     .collection("Post")
-                    .findOne({_id: new ObjectId(board.pk)});
+                    .findOne({_id: new ObjectId(post.pk)});
 
                 if(find) {
                     await db
                         .collection("Post")
-                        .deleteOne({_id: new ObjectId(board.pk)});
+                        .deleteOne({_id: new ObjectId(post.pk)});
                 }
                 else return res.status(404).json({ message: "게시판이 존재하지 않습니다."});
             }
@@ -96,7 +107,7 @@ const Board = (db) => {
                     Register_Id: id,
                     Register_Nickname: nickname,
                     Register_Date: nowDate,
-                    Request_Status: ""
+                    Request_Status: "모집 중"
                 });
 
             return res.status(200).json({ message: "게시글 올리기 완료" });

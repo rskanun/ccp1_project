@@ -28,6 +28,27 @@ const Profile = (db, form_data) => {
         }
     });
 
+    router.patch("/api/updateIntro", async(req, res) => {
+        const id = req.body.id;
+        const newIntro = req.body.introduction;
+        try {
+            const result = await db
+                .collection("Profile")
+                .findOneAndUpdate(
+                    { User_ID: id },
+                    { $set: {Introduction: newIntro}}
+                );
+
+            if (result.value) {
+                return res.status(200).json({ message: "업데이트 완료"})
+            } else {
+                return res.status(404).json({ message: "아이디를 찾을 수 없습니다!" });
+            }
+        } catch (e) {
+            return res.status(500).json({ message: "서버 오류" });
+        }
+    })
+
     router.get("/api/getUserCreativeImages", async(req, res) => {
         
     })

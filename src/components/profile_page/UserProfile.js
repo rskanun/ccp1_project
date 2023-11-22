@@ -1,380 +1,89 @@
-import React, { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-import "./ProfilePage.css";
+function UserProfile({ profileInfo, isProfileUser }) {
+    const [isEditMode, setEditMode] = useState(false);
+    const [introduction, setIntroduction] = useState('');
+    const [profilePic, setProfilePic] = useState(null);
+    const fileInputRef = useRef(null);
 
-const urlParams = new URLSearchParams(window.location.search);
-
-function UserProfilePage() {
-  const [isProfileUser, setIsProfileUser] = useState(false);
-  const [profileInfo, setProfileInfo] = useState({});
-  const [finRequests, setFinRequests] = useState([]);
-  const [creativeImages, setCreativeImages] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["loginID"]);
-
-  useEffect(() => {
-    // 로그인 체크
-    const userCheck = async () => {
-      const token = cookies.loginID;
-      const profileUser = urlParams.get("user");
-      try {
-        const res = await axios.post(
-          `${process.env.REACT_APP_LOGIN_API_URL}/loginCheck`,
-          { token: token }
-        );
-        const id = res.data.id;
-
-        setIsProfileUser(id === profileUser);
-      } catch (e) {
-        setIsProfileUser(false);
-      } finally {
-        setProfileInfo((prevProfileInfo) => ({
-          ...prevProfileInfo,
-          id: profileUser,
-        }));
-        getUserInfo(profileUser);
-        getProfileInfo(profileUser);
-      }
-    };
-
-    // 유저 닉네임 가져오기
-    const getUserInfo = async (id) => {
-      const userInfo = await axios.get(
-        `${process.env.REACT_APP_USER_API_URL}/getUserInfo`,
-        {
-          params: {
-            id,
-          },
+    useEffect(() => {
+        if (!introduction || introduction === '') {
+            setIntroduction(profileInfo.introduction);
         }
-      );
-      setProfileInfo((prevProfileInfo) => ({
-        ...prevProfileInfo,
-        nickname: userInfo.data.Nickname,
-      }));
-    };
+    }, [profileInfo])
 
-    // 프로필 정보 가져오기
-    const getProfileInfo = async (id) => {
-      const profile = await axios.get(
-        `${process.env.REACT_APP_PROFILE_API_URL}/getUserProfile`,
-        {
-          params: {
-            id,
-          },
+    const handleEditClick = async () => {
+        if (isEditMode) {
+            await axios.patch(`${process.env.REACT_APP_PROFILE_API_URL}/updateIntro`, {
+                id: profileInfo.id,
+                introduction
+            }).then(() => {
+                setEditMode(false);
+            })
         }
-      );
-      setProfileInfo((prevProfileInfo) => ({
-        ...prevProfileInfo,
-        introduction: profile.data.Introduction,
-      }));
+        else
+            setEditMode(true);
+    }
+
+    const handlePutPicClick = () => {
+        fileInputRef.current.click();
     };
 
-    userCheck();
-  }, [cookies.loginID]);
-
-  return profileInfo ? (
-    <UserProfile
-      profileInfo={profileInfo}
-      isProfileUser={isProfileUser}
-      finRequests={finRequests}
-      creativeImages={creativeImages}
-    />
-  ) : null;
-}
-
-function UserProfile({
-  profileInfo,
-  isProfileUser,
-  finRequests,
-  creativeImages,
-}) {
-  return (
-    <div className="wholeUserProfliePage">
-      <div className="firstPaper">
-        <div className="secondPaper">
-          <div className="contentPaper">
-            <span className="profileTitle">
-              <strong>Profile</strong>
-            </span>
-            <Profile profileInfo={profileInfo} isProfileUser={isProfileUser} />
-            <PostList
-              profileUser={profileInfo.id}
-              isProfileUser={isProfileUser}
-            />
-            <RequestList requests={finRequests} />
-            <PostingImageList postingImages={creativeImages} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Profile({ profileInfo, isProfileUser }) {
-  return (
-    <div className="userProfileBox">
-      <div className="profliePic">
-        {isProfileUser && <button className="putPic">-</button>}
-      </div>
-      <div className="proflieIntro">
-        <div className="userNameBox">
-          <span className="nameText">Name</span>
-          <div className="userNameText">{profileInfo.nickname}</div>
-        </div>
-        {!isProfileUser && <button className="DMWithUserBtn">DM+</button>}
-        <div className="userIntroBox">
-          <span className="introText">[자기소개]</span>
-          {isProfileUser && <button className="writeInterBtn">+</button>}
-          <div className="userIntroText">{profileInfo.introduction}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PostList({ profileUser, isProfileUser }) {
-  const [posts, setPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BOARD_API_URL}/getUserPostList`,
-          {
-            params: {
-              id: profileUser,
-              page: currentPage,
-            },
-          }
-        );
-        setPosts(response.data.posts);
-        setTotalPages(response.data.totalPages);
-      } catch (e) {
-        console.log(e);
-      }
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfilePic(reader.result);
+            };
+            reader.readAsDataURL(selectedFile);
+        }
     };
 
-    fetchData();
-  }, [profileUser, currentPage]);
+    return (
+        <div className="userProfileBox">
+            <div className="profliePic">
 
-  const handlePageClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  return (
-    <div className="userPostBox">
-      <div className="userPostText">
-        게시글
-        {isProfileUser && <button className="userPostDeleteBtn">delete</button>}
-      </div>
-      {posts.map((post, index) => (
-        <div className="userPostList" key={index}>
-          {isProfileUser ? (
-            <label className="userPostCheckboxDiv">
-              <input type="checkbox" className="userPostCheckbox" />
-            </label>
-          ) : (
-            <div className="userPostIndex">{index + 5 * (currentPage - 1)}</div>
-          )}
-          <div className="userPostListTitle">{post.title}</div>
-          <div className="userPostListDate">{changedDateInfo(post.date)}</div>
+                {profilePic && <img src={profilePic} alt="Profile" />}
+                {isProfileUser && !profilePic &&
+                    <>
+                        <button className="putPic" onClick={handlePutPicClick}>
+                            -
+                        </button>
+                        <input
+                            type="file"
+                            style={{ display: 'none' }}
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                        />
+                    </>
+                }
+            </div>
+            <div className="proflieIntro">
+                <div className="userNameBox">
+                    <span className="nameText">Name</span>
+                    <div className="userNameText">{profileInfo.nickname}</div>
+                </div>
+                {!isProfileUser && <button className="DMWithUserBtn">DM+</button>}
+                <div className="userIntroBox">
+                    <span className="introText">[자기소개]</span>
+                    {isProfileUser &&
+                        <button className="writeInterBtn" onClick={handleEditClick}>
+                            +
+                        </button>}
+                    {isEditMode ? (
+                        <input
+                            className="userIntroEdit"
+                            defaultValue={introduction}
+                            onChange={(e) => setIntroduction(e.target.value)}
+                        />
+                    ) : (
+                        <div className="userIntroText">{introduction}</div>
+                    )}
+                </div>
+            </div>
         </div>
-      ))}
-
-      {/* 게시글이 없는 경우 */}
-      {(!posts || posts.length === 0) && (
-        <p className="nullPost">아직 게시글이 없습니다!</p>
-      )}
-
-      <div className="btnListDiv">
-        <button
-          className="profilePageBtn"
-          onClick={() => handlePageClick(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          〈
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            className="profilePageBtn"
-            onClick={() => handlePageClick(index + 1)}
-          >
-            {index + 1}
-          </button>
-        ))}
-        <button
-          className="profilePageBtn"
-          onClick={() => handlePageClick(currentPage + 1)}
-          disabled={currentPage === totalPages || posts.length <= 0}
-        >
-          〉
-        </button>
-      </div>
-    </div>
-  );
+    );
 }
-
-function RequestList({ requests }) {
-  const RequestsPerPage = 5;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const indexOfLastRequest = currentPage * RequestsPerPage;
-  const indexOfFirstRequest = indexOfLastRequest - RequestsPerPage;
-  const currentRequests = requests.slice(
-    indexOfFirstRequest,
-    indexOfLastRequest
-  );
-
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(requests.length / RequestsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  const handlePageClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  return (
-    <div className="makerPostBox">
-      <div className="finReqText">완료 의뢰 목록</div>
-      {currentRequests.map((request, index) => (
-        <div className="finReqList" key={index}>
-          <label className="finReqCheckboxDiv">
-            <strong>[게시자]</strong>
-            <br />
-            {request.nickname}
-          </label>
-          <div className="finReqListTitle">{request.title}</div>
-          <div className="finReqListDate">{changedDateInfo(request.date)}</div>
-        </div>
-      ))}
-
-      {/* 게시글이 없는 경우 */}
-      {(!requests || requests.length === 0) && (
-        <p className="nullPost">아직 게시글이 없습니다!</p>
-      )}
-
-      <div className="btnListDiv">
-        <button
-          className="profilePageBtn"
-          onClick={() => handlePageClick(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          〈
-        </button>
-        {pageNumbers.map((pageNumber) => (
-          <button
-            key={pageNumber}
-            className="profilePageBtn"
-            onClick={() => handlePageClick(pageNumber)}
-          >
-            {pageNumber}
-          </button>
-        ))}
-        <button
-          className="profilePageBtn"
-          onClick={() => handlePageClick(currentPage + 1)}
-          disabled={currentPage === pageNumbers.length || requests.length <= 0}
-        >
-          〉
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function PostingImageList({ postingImages }) {
-  const ImagesPerPage = 3;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const indexOfLastPostingImage = currentPage * ImagesPerPage;
-  const indexOfFirstPostingImage = indexOfLastPostingImage - ImagesPerPage;
-  const currentImages = postingImages.slice(
-    indexOfFirstPostingImage,
-    indexOfLastPostingImage
-  );
-
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(postingImages.length / ImagesPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  const handlePageClick = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  return (
-    <div
-      className={`userImgBox${
-        !postingImages || postingImages.length === 0 ? " nullImages" : ""
-      }`}
-    >
-      <div className="userImgText">
-        등록 이미지 목록
-        <button className="userImgDeleteBtn">delete</button>
-      </div>
-      {currentImages.map((postingImage, index) => (
-        <div className="userImgList" key={index}>
-          <div className="userImgInProfile">{postingImage.img}</div>
-          <div className="userImgCat">#{postingImage.category}</div>
-        </div>
-      ))}
-
-      {/* 게시글이 없는 경우 */}
-      {(!postingImages || postingImages.length === 0) && (
-        <p className="nullPost">아직 작성된 이미지가 없습니다!</p>
-      )}
-
-      <div className="btnListDiv">
-        <button
-          className="profilePageBtn"
-          onClick={() => handlePageClick(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          〈
-        </button>
-        {pageNumbers.map((pageNumber) => (
-          <button
-            key={pageNumber}
-            className="profilePageBtn"
-            onClick={() => handlePageClick(pageNumber)}
-          >
-            {pageNumber}
-          </button>
-        ))}
-        <button
-          className="profilePageBtn"
-          onClick={() => handlePageClick(currentPage + 1)}
-          disabled={
-            currentPage === pageNumbers.length || postingImages.length <= 0
-          }
-        >
-          〉
-        </button>
-      </div>
-    </div>
-  );
-}
-
-const changedDateInfo = (date) => {
-  const nowDate = new Date();
-
-  // 날짜를 비교하여 "시-분" 또는 "년-월-일"로 변환
-  const formattedDate =
-    nowDate.toDateString() === new Date(date).toDateString()
-      ? new Date(date).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })
-      : new Date(date).toLocaleDateString();
-
-  return formattedDate;
-};
-
-export default UserProfilePage;
+export default UserProfile;

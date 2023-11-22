@@ -14,7 +14,8 @@ import Register from "./components/login_page/RegisterPage";
 import Admit from "./components/login_page/AdmitPage";
 import FindUser from "./components/main_page/FindMem";
 import MyPage from "./components/my_page/MyPage";
-import ProfilePage from "./components/profile_page/UserProfile";
+import ProfilePage from "./components/profile_page/UserProfilePage";
+import NewPostList from "./components/board_page/NewPostList";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -36,7 +37,7 @@ function App() {
             <Route path="register/enterInfo/*" element={<Register />} />
             <Route path="register/admitCheck/*" element={<Admit />} />
             <Route path="DM/*" element={<DM />} />
-            <Route path="board/list/*" element={<BoardList />} />
+            <Route path="board/list/*" element={<NewPostList />} />
             <Route path="board/write/*" element={<WritePost />} />
             <Route path="findUser/*" element={<FindUser />} />
             <Route path="mypage/*" element={<MyPage />} />

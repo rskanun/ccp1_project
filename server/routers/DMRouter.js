@@ -90,9 +90,6 @@ const DM = (db) => {
         try {
             const dmID = new ObjectId(req.body.dmID);
             const userID = req.body.userID;
-    
-            // 데이터베이스에서 해당 DM을 찾아 Is_Reading을 true로 업데이트
-            const find = await db.collection("DM").findOne({ DM_ID: dmID, User_ID: userID });
 
             const result = await db.collection("DM").findOneAndUpdate(
                 { DM_ID: dmID, User_ID: userID },
@@ -102,7 +99,6 @@ const DM = (db) => {
             if (result.value) {
                 return res.status(200).json({ message: "메세지 읽음" });
             } else {
-                console.log(req.body);
                 return res.status(404).json({ message: "해당 DM을 찾을 수 없습니다." });
             }
         } catch (error) {
