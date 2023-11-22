@@ -3,8 +3,15 @@ import axios from 'axios';
 
 import "./NewPostList.css"
 
+const categories = ["All", "Draw", "Program", "Music", "Goods", "Video", "Other"];
+
 function NewPostList() {
     const [posts, setPosts] = useState([{
+        Category: "category",
+        Title: "Title",
+        Author: "Author",
+        Register_Date: new Date()
+    }, {
         Category: "category",
         Title: "Title",
         Author: "Author",
@@ -19,42 +26,59 @@ function NewPostList() {
         setCurrentPage(pageNumber);
     };
 
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category);
+    };
+
     return (
         <div className="new-post-list">
-            <div className="category-select-container">
-                <label>카테고리: </label>
-                <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="category-select"
-                >
-                    <option value="">전체</option>
-                    <option value="글">글</option>
-                    <option value="그림">그림</option>
-                    <option value="코딩">코딩</option>
-                    {/* 추가적인 카테고리 옵션들을 필요에 따라 추가할 수 있습니다 */}
-                </select>
-            </div>
-            <thead>
-                <tr>
-                    <th className="index-header">Index</th>
-                    <th className="category-header">Category</th>
-                    <th className="title-header">Title</th>
-                    <th className="author-header">Author</th>
-                    <th className="date-header">Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {posts.map((post, index) => (
-                    <tr key={index}>
-                        <td className="index">{index + 1}</td>
-                        <td className="category">{post.Category}</td>
-                        <td className="title">{post.Title}</td>
-                        <td className="author">{post.Author}</td>
-                        <td className="date">{setDateInfo(post.Register_Date)}</td>
-                    </tr>
+            <div className="category-buttons-container">
+                {categories.map((category, index) => (
+                    <button
+                        key={index}
+                        onClick={() => handleCategoryClick(category)}
+                        className={`category-button ${selectedCategory === category ? 'active' : ''}`}
+                    >
+                        {category}
+                    </button>
                 ))}
-            </tbody>
+            </div>
+            <div className='top-banner-container'>
+                <div className='category-text'>
+                    <p>Category</p>
+                </div>
+                <div className="search-container">
+                    <input
+                        type="text"
+                        placeholder='Search'
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        className="search-input"
+                    />
+                </div>
+            </div>
+            <div className='posts-container'>
+                {posts.map((post, index) => (
+                    <div className='post-container' key={index}>
+                        <div className="index">{index + 1}</div>
+                        <div className='post-content-container'>
+                            <div className='post-top-container'>
+                                <div className='title'>{post.Title}</div>
+                                <div className="date">{setDateInfo(post.Register_Date)}</div>
+                            </div>
+                            <div className='post-bottom-container'>
+                                <div className="author">{post.Author}</div>
+                                <div className="category">#{post.Category}</div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className="write-button-container">
+                <button onClick={() => console.log('Write button clicked')} className="write-button">
+                    글쓰기
+                </button>
+            </div>
             <div className="pagination-container">
                 <button
                     onClick={() => handlePageClick(currentPage - 1)}
@@ -78,20 +102,6 @@ function NewPostList() {
                     className="page-button"
                 >
                     다음 페이지
-                </button>
-            </div>
-            <div className="search-container">
-                <label>검색: </label>
-                <input
-                    type="text"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    className="search-input"
-                />
-            </div>
-            <div className="write-button-container">
-                <button onClick={() => console.log('Write button clicked')} className="write-button">
-                    글쓰기
                 </button>
             </div>
         </div>

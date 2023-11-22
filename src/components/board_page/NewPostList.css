@@ -1,37 +1,46 @@
 .new-post-list {
-    max-width: 800px;
+    max-width: 1400px;
     margin: 0 auto;
     font-family: 'Arial', sans-serif;
+    color: #000;
+  }
+
+  .category-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .category-button {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin: 0 10px;
+    color: rgb(109, 109, 109);
+  }
+
+  .category-button.active {
+    border-bottom-color: #000;
     color: #000;
   }
   
   .category-select-container {
     margin-bottom: 10px;
+    background: none;
+    border: none;
   }
   
   .category-select {
     padding: 5px;
     font-size: 14px;
   }
-  
-  table {
+
+  .top-banner-container {
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  .index-header, .category-header, .title-header, .author-header, .date-header {
-    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #bebebe;
+    margin-top: 20px;
   }
   
   .pagination-container {
@@ -46,6 +55,18 @@
     cursor: pointer;
     border: none;
   }
+
+  .category-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .category-text p {
+    margin: 3px auto;
+    font-size: 20px;
+    font-weight: bold;
+  }
   
   .page-button:disabled {
     background-color: #ccc;
@@ -59,6 +80,8 @@
   .search-input {
     padding: 8px;
     font-size: 14px;
+    width: 280px;
+    height: 32px;
   }
   
   .write-button-container {
@@ -72,4 +95,67 @@
     font-size: 16px;
     border: none;
     cursor: pointer;
+  }
+  
+  
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.post-container {
+  border-bottom: 1px solid #bebebe;
+  display: flex;
+  flex-direction: row;
+}
+
+.index, .title, .author, .category, .date {
+  display: block;
+}
+
+.index {
+  width: 5%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+.date {
+  margin-right: 10px;
+  color: #777777;
+}
+
+.category {
+  margin-left: 7px;
+}
+
+.post-content-container {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+}
+
+  .post-top-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+
+  .post-bottom-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #777777;
   }
