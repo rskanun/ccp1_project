@@ -80,7 +80,6 @@ const User = (db) => {
 
     router.post("/api/updateUserInfo", async (req, res) => {
         const { id, email, password, nickname } = req.body;
-        console.log(req.body);
 
         try {
             const result = await db

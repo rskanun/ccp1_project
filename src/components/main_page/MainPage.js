@@ -34,13 +34,13 @@ function Main() {
                     />
                 </div>
                 <div className="categoriesInMain">
-                    <div id = "cat1" className="categoryInMain" onClick={() => goToCategory("illust")}>
+                    <div id = "cat1" className="categoryInMain" onClick={() => goToCategory("draw")}>
                         <div className="catePic">
                             <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
                             <span>그림/일러스트</span>
                         </div>
                     </div>
-                    <div id = "cat2" className="categoryInMain"onClick={() => goToCategory("code")}>
+                    <div id = "cat2" className="categoryInMain"onClick={() => goToCategory("program")}>
                         <div className="catePic">
                         <img src={testImg} alt="파일 사진"  style={{ width: "100%", height: "70%" }}/>
                             <span>코딩</span>

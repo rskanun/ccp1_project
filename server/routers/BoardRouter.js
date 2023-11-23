@@ -4,7 +4,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 const Board = (db) => {
     router.get("/api/getPostList", async (req, res) => {
-        const boardType = req.query.type || "other";
+        const boardType = req.query.type || "";
         const searchText = req.query.search || "";
 
         try {
@@ -12,8 +12,8 @@ const Board = (db) => {
                 "Title": { $regex: searchText, $options: 'i' }
             };
     
-            if (req.query.type) {
-                query["Category"] = req.query.type;
+            if (boardType) {
+                query["Category"] = boardType;
             }
     
             const postList = await db
@@ -21,6 +21,8 @@ const Board = (db) => {
                 .find(query)
                 .sort({ Register_Date: -1 })
                 .toArray();
+
+            console.log(req.query);
 
             if(postList) {
                 return res.json(postList);

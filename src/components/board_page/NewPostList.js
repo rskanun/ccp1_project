@@ -6,21 +6,35 @@ import "./NewPostList.css"
 const categories = ["All", "Draw", "Program", "Music", "Goods", "Video", "Other"];
 
 function NewPostList() {
-    const [posts, setPosts] = useState([{
-        Category: "category",
-        Title: "Title",
-        Author: "Author",
-        Register_Date: new Date()
-    }, {
-        Category: "category",
-        Title: "Title",
-        Author: "Author",
-        Register_Date: new Date()
-    }]);
+    const [posts, setPosts] = useState([]);
+    const [category, setCategory] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [searchText, setSearchText] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+
+        // 게시판 목록 가져오기
+        useEffect(() => {
+            const loadBoardList = async () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const getCategory = urlParams.get('category');
+                const getSearch = decodeURIComponent(urlParams.get('search'));
+    
+                const list = await axios.get(`${process.env.REACT_APP_BOARD_API_URL}/getPostList`, {
+                    params: {
+                        type: getCategory,
+                        search: getSearch
+                    }
+                });
+                console.log(list.data);
+                const categoryName = getCategory.charAt(0).toUpperCase() + getCategory.slice(1);
+    
+                setPosts(list.data);
+                setCategory(categories.includes(categoryName) ? categoryName : 'All');
+            }
+    
+            loadBoardList().then();
+        }, [setCategory]);
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -45,7 +59,7 @@ function NewPostList() {
             </div>
             <div className='top-banner-container'>
                 <div className='category-text'>
-                    <p>Category</p>
+                    <p>{category}</p>
                 </div>
                 <div className="search-container">
                     <input
