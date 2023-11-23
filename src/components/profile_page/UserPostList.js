@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 function UserPostList({ profileUser, isProfileUser, changedDateInfo }) {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [checkedItems, setCheckedItems] = useState([]);
+  const navigate = useNavigate();
+
+  const pageButtonSize = 5;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +23,21 @@ function UserPostList({ profileUser, isProfileUser, changedDateInfo }) {
             },
           }
         );
-        setPosts(response.data.posts);
+
+        const postList = await Promise
+          .all(response.data.posts.map(async (post) => {
+            const response = await axios.get(`${process.env.REACT_APP_REQUEST_API_URL}/getRequest`, {
+              params: {
+                postID: post.pk
+              }
+            });
+
+            return {
+              ...post, status: response.data.Status
+            };
+          }))
+
+        setPosts(postList);
         setTotalPages(response.data.totalPages);
       } catch (e) {
         console.log(e);
@@ -33,7 +51,7 @@ function UserPostList({ profileUser, isProfileUser, changedDateInfo }) {
     setCurrentPage(pageNumber);
     setCheckedItems({});
   };
-  
+
   const handleCheckboxChange = (index) => {
     setCheckedItems((prevCheckedItems) => {
       const newCheckedItems = { ...prevCheckedItems };
@@ -86,13 +104,20 @@ function UserPostList({ profileUser, isProfileUser, changedDateInfo }) {
                 type="checkbox"
                 className="userPostCheckbox"
                 checked={checkedItems[index] || false}
-                onChange={(e) => handleCheckboxChange(index)}
+                onChange={() => handleCheckboxChange(index)}
               />
             </label>
           ) : (
             <div className="userPostIndex">{index + 5 * (currentPage - 1)}</div>
           )}
-          <div className="userPostListTitle">{post.title}</div>
+          <div className="userPostListTitle" onClick={() => navigate('/board/read?_id=' + post.pk)}>
+            {
+              (post.status && post.status !== '') &&
+              <span style={{ color: getStatusColor(post.status) }}>
+                [{post.status}]
+              </span>
+            } {post.title}
+          </div>
           <div className="userPostListDate">{changedDateInfo(post.date)}</div>
         </div>
       ))}
@@ -110,15 +135,21 @@ function UserPostList({ profileUser, isProfileUser, changedDateInfo }) {
         >
           〈
         </button>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            className="profilePageBtn"
-            onClick={() => handlePageClick(index + 1)}
-          >
-            {index + 1}
-          </button>
-        ))}
+        {Array.from({ length: Math.min(totalPages - parseInt(((currentPage - 1) / pageButtonSize)) * pageButtonSize, pageButtonSize) }, (_, index) => {
+          const firstPage = parseInt(((currentPage - 1) / pageButtonSize)) * pageButtonSize + 1;
+          const pageNumber = firstPage + index;
+
+          return (
+            <button
+              key={pageNumber}
+              className="profilePageBtn numberBtn"
+              disabled={currentPage === pageNumber}
+              onClick={() => handlePageClick(pageNumber)}
+            >
+              {pageNumber}
+            </button>
+          );
+        })}
         <button
           className="profilePageBtn"
           onClick={() => handlePageClick(currentPage + 1)}
@@ -129,6 +160,17 @@ function UserPostList({ profileUser, isProfileUser, changedDateInfo }) {
       </div>
     </div>
   );
+}
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case '모집 중':
+      return 'rgb(255, 75, 75)';
+    case '모집 완료':
+      return 'rgb(260, 190, 40)';
+    case '의뢰 완료':
+      return 'rgb(190, 190, 190)';
+  }
 }
 
 export default UserPostList;

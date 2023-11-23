@@ -4,28 +4,47 @@ const ObjectId = require("mongodb").ObjectId;
 
 const Board = (db) => {
     router.get("/api/getPostList", async (req, res) => {
-        const boardType = req.query.type || "";
-        const searchText = req.query.search || "";
+        const boardType = (req.query.type && req.query.type !== "all") ? req.query.type : "";
+        const searchText = req.query.search !== "null" ? req.query.search : "";
+        const currentPage = req.query.page ? parseInt(req.query.page) : 1;
+        const postsPerPage = 10;
 
         try {
+            // 쿼리문
             let query = {
                 "Title": { $regex: searchText, $options: 'i' }
             };
     
-            if (boardType) {
-                query["Category"] = boardType;
+            if (boardType !== '') {
+                query = {"Category": boardType, ...query}
             }
+            
+            // 전체 게시물 수를 가져옴
+            const totalPosts = await db.collection("Post").countDocuments(query);
+    
+            // 페이징을 위한 오프셋 계산
+            const skip = (currentPage - 1) * postsPerPage;
     
             const postList = await db
                 .collection("Post")
                 .find(query)
                 .sort({ Register_Date: -1 })
+                .skip(skip)
+                .limit(postsPerPage)
                 .toArray();
 
-            console.log(req.query);
-
-            if(postList) {
-                return res.json(postList);
+            if(postList.length > 0) {
+                return res.json({
+                    posts: postList.map((post) => ({
+                        title: post.Title,
+                        category: post.Category,
+                        otherCategory: post.Other_Category.replace(/\s/g, '_'),
+                        date: post.Register_Date,
+                        userNickname: post.Register_Nickname,
+                        pk: post._id
+                    })),
+                    totalPages: Math.ceil(totalPosts / postsPerPage)
+                });
             }
             else return res.status(404).json({ message: "해당 타입의 게시글이 존재하지 않습니다." });
         } catch(e) {
@@ -61,11 +80,28 @@ const Board = (db) => {
                         date: post.Register_Date,
                         pk: post._id
                     })),
-                    currentPage: currentPage,
-                    totalPages: Math.ceil(totalPosts / postsPerPage),
+                    totalPages: Math.ceil(totalPosts / postsPerPage)
                 });
             } else {
                 return res.status(404).json({ message: "해당 유저의 게시글이 존재하지 않습니다." });
+            }
+        } catch (e) {
+            return res.status(500).json({ message: 'Server Error!!' });
+        }
+    });
+
+    router.get("/api/getFinReqPostList", async (req, res) => {
+        const pk = req.query.pk;
+    
+        try {
+            const post = await db
+                .collection("Post")
+                .findOne({ "_id": new ObjectId(pk) });
+    
+            if (post) {
+                return res.json(post);
+            } else {
+                return res.status(404).json({ message: "해당 게시글이 존재하지 않습니다." });
             }
         } catch (e) {
             return res.status(500).json({ message: 'Server Error!!' });
@@ -85,7 +121,7 @@ const Board = (db) => {
                         .collection("Post")
                         .deleteOne({_id: new ObjectId(post.pk)});
                 }
-                else return res.status(404).json({ message: "게시판이 존재하지 않습니다."});
+                else return res.status(404).json({ message: "게시글이 존재하지 않습니다."});
             }
 
             return res.status(200).json({ message: "게시판 삭제 완료"});
@@ -100,7 +136,7 @@ const Board = (db) => {
         try {
             const nowDate = new Date();
 
-            await db.collection("Post")
+            const newPost = await db.collection("Post")
                 .insertOne({
                     Title: title,
                     Category: category,
@@ -108,11 +144,10 @@ const Board = (db) => {
                     Content: content,
                     Register_Id: id,
                     Register_Nickname: nickname,
-                    Register_Date: nowDate,
-                    Request_Status: "모집 중"
+                    Register_Date: nowDate
                 });
 
-            return res.status(200).json({ message: "게시글 올리기 완료" });
+            return res.status(200).json({ message: "게시글 올리기 완료", _id: newPost.insertedId });
         } catch(e) {
             return res.status(500).json({ message: 'Server Error!!'});
         }

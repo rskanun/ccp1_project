@@ -14,6 +14,7 @@ const userRouter = require("./routers/UserRouter");
 const loginRouter = require("./routers/LoginRouter");
 const boardRouter = require("./routers/BoardRouter");
 const profileRouter = require("./routers/ProfileRouter");
+const requestRouter = require("./routers/RequestRouter")
 
 const app = express();
 const form_data = multer();
@@ -58,6 +59,7 @@ app.use("/user", userRouter(db));
 app.use("/loginPage", loginRouter(db));
 app.use("/boardPage", boardRouter(db));
 app.use("/profile", profileRouter(db, form_data));
+app.use("/request", requestRouter(db));
 
 /* socket setting */
 const userSocketMap = new Map();

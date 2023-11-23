@@ -36,7 +36,7 @@ function WritePost() {
 
 const PostingPage = ({ id }) => {
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("illust");
+  const [category, setCategory] = useState("draw");
   const [otherCategory, setOtherCategory] = useState(""); // 추가 입력 필드 값
   const [content, setContent] = useState("");
   const navigate = useNavigate();
@@ -58,24 +58,29 @@ const PostingPage = ({ id }) => {
       );
       const nickname = userInfo.data.Nickname;
 
-      await axios
-        .post(`${process.env.REACT_APP_BOARD_API_URL}/posting`, {
+      const postingResponse = await axios.post(`${process.env.REACT_APP_BOARD_API_URL}/posting`, {
           category,
           otherCategory,
           title,
           content,
           id,
           nickname: nickname,
-        })
-        .then(() => {
-          setTitle("");
-          setCategory("");
-          setOtherCategory("");
-          setContent("");
-
-          navigate("/board/list?category=" + pageCategory);
         });
+
+      console.log(postingResponse);
+      await axios.post(`${process.env.REACT_APP_REQUEST_API_URL}/addRequest`, {
+          postID: postingResponse.data._id,
+          client: id
+      }).then(() => {
+        setTitle("");
+        setCategory("");
+        setOtherCategory("");
+        setContent("");
+
+        navigate("/board/list?category=" + pageCategory);
+      })
     } catch (e) {
+      console.log(e);
       alert("게시글을 올리는 과정에서 오류가 발생했습니다!\n" + e);
     }
   };
@@ -102,8 +107,8 @@ const PostingPage = ({ id }) => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="illust">그림/일러스트</option>
-            <option value="code">코딩</option>
+            <option value="draw">그림/일러스트</option>
+            <option value="program">코딩</option>
             <option value="music">음악/작곡</option>
             <option value="goods">물품</option>
             <option value="video">영상</option>

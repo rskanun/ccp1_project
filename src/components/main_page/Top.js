@@ -7,9 +7,13 @@ import logo from "./img/outsourcing.jpg"
 function Top() {
     const [cookies, setCookie, removeCookie] = useCookies(['loginID']);
 
-    const handleLogout = () => {
+    const handleLogout = (e) => {
+        e.preventDefault();
+
         // 쿠키 삭제
         removeCookie('loginID', { path: '/' });
+
+        window.location.reload();
     };
 
     return(
@@ -18,7 +22,7 @@ function Top() {
                 <img src={logo} alt="Logo" />
             </a>
             {cookies.loginID ? (
-                <a href="/login" className='menu' onClick={handleLogout}>로그아웃</a>
+                <a href="#" className='menu' onClick={handleLogout}>로그아웃</a>
             ) : (
                 <a href="/login" className='menu'>로그인</a>
             )}

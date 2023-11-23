@@ -14,7 +14,6 @@ const urlParams = new URLSearchParams(window.location.search);
 function UserProfilePage() {
   const [isProfileUser, setIsProfileUser] = useState(false);
   const [profileInfo, setProfileInfo] = useState({});
-  const [finRequests, setFinRequests] = useState([]);
   const [creativeImages, setCreativeImages] = useState([]);
   const [cookies] = useCookies(["loginID"]);
 
@@ -96,7 +95,8 @@ function UserProfilePage() {
               changedDateInfo={changedDateInfo}
             />
             <UserRequestList
-              requests={finRequests}
+              profileUser={profileInfo.id}
+              isProfileUser={isProfileUser}
               changedDateInfo={changedDateInfo}
             />
             <PostingImageList postingImages={creativeImages} />

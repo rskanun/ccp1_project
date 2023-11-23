@@ -242,6 +242,11 @@
     margin: 0 auto;
     margin-right: 10px;
     border:none;
+    font-weight: lighter;
+}
+
+.numberBtn:disabled {
+    color: #000;
     font-weight: bold;
 }
 
