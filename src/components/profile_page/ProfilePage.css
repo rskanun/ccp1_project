@@ -50,11 +50,22 @@
     margin-top: 70px;
 }
 
-.profliePic{
+.profilePicContainer{
+    position: relative;
     width: 20%;
     height: 100%;
     border: 2px dashed black;
     margin-left: 40px;
+}
+
+.profilePic {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    object-fit: cover;
 }
 
 .putPic{

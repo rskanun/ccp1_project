@@ -43,9 +43,8 @@ function UserProfile({ profileInfo, isProfileUser }) {
 
     return (
         <div className="userProfileBox">
-            <div className="profliePic">
-
-                {profilePic && <img src={profilePic} alt="Profile" />}
+            <div className="profilePicContainer">
+                {profilePic && <img className="profilePic" src={profilePic} alt="Profile" />}
                 {isProfileUser && !profilePic &&
                     <>
                         <button className="putPic" onClick={handlePutPicClick}>
