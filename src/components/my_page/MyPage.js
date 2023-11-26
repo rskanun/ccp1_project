@@ -45,7 +45,7 @@ function MyPage() {
     }, [cookies.loginID]);
 
     return userInfo ? (
-        userInfo.isAdmin ? <ManagerMypage/> 
+        userInfo.isAdmin ? <ManagerMypage user={userInfo}/> 
             : <UserMypage user={userInfo}/>
     ) : null;
 }

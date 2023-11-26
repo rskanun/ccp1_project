@@ -46,12 +46,16 @@ function PostList() {
                     
                 setPosts(postList);
                 setTotalPages(postsData.data.totalPages)
-                setCategory(categories.includes(getCategory) ? getCategory : 'all');
-                setSelectedCategory(categories.includes(getCategory) ? getCategory : 'all');
+                
+                const category = categories.includes(getCategory) ? getCategory : 'all';
+                setCategory(category);
+                setSelectedCategory(category);
             } catch (e) {
                 if(e.response.status === 404) {
-                    setCategory(getCategory);
-                    setSelectedCategory(getCategory);
+                    const category = categories.includes(getCategory) ? getCategory : 'all';
+
+                    setCategory(category);
+                    setSelectedCategory(category);
                 }
                 else {
                     setCategory('all');
@@ -63,6 +67,7 @@ function PostList() {
         }
 
         loadBoardList();
+        console.log(category);
     }, [setCategory]);
 
     const handlePageClick = (pageNumber) => {
@@ -121,20 +126,20 @@ function PostList() {
             <div className='posts-container'>
                 {posts.map((post, index) => (
                     <div key={index}  className='post-container' onClick={() => handlePostClick(post.pk)}>
-                        <div className="index">{index + 1}</div>
+                        <div className="list-index">{index + 1}</div>
                         <div className='post-content-container'>
                             <div className='post-top-container'>
-                                <div className='title'>{
+                                <div className='list-title'>{
                                     (post.status && post.status !== '') &&
                                         <span style={{ color: getStatusColor(post.status) }}>
                                             [{post.status}] 
                                         </span>
                                 } {post.title}</div>
-                                <div className="date">{setDateInfo(post.date)}</div>
+                                <div className="list-date">{setDateInfo(post.date)}</div>
                             </div>
                             <div className='post-bottom-container'>
-                                <div className="author">{post.userNickname}</div>
-                                <div className="category">#{(post.category !== "other") ? post.category : post.otherCategory}</div>
+                                <div className="list-author">{post.userNickname}</div>
+                                <div className="list-category">#{(post.category !== "other") ? post.category : post.otherCategory}</div>
                             </div>
                         </div>
                     </div>

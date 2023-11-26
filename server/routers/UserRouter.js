@@ -104,6 +104,28 @@ const User = (db) => {
 
     })
 
+    router.patch("/api/rankUpToCreator", async (req, res) => {
+        const id = req.body.id;
+        try {
+            const result = await db
+            .collection("User")
+            .findOneAndUpdate(
+                { ID: id },
+                { $set: {
+                    Permission_Level: 1
+                }}
+            );
+
+            if (result.value) {
+                return res.status(200).json({ message: "유저 정보 업데이트 완료" });
+            } else {
+                return res.status(404).json({ message: "유저 정보를 찾을 수 없습니다." });
+            }
+        } catch(e) {
+            return res.status(500).json({ message: "서버 오류" });
+        }
+    })
+
     return router;
 }
 

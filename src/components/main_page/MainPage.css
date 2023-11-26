@@ -130,7 +130,7 @@
 }
 
 .requestInMainInfo{
-    width: 419px;
+    width: 100%;
     position: relative;
     justify-content: center;
     margin-top: -80px;

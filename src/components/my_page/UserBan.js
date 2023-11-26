@@ -1,34 +1,41 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+const urlParams = new URLSearchParams(window.location.search);
 
 const UserBan = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [reason, setReason] = useState('');
-  const [duration, setDuration] = useState('');
+  const [duration, setDuration] = useState('1');
   const [isSubmitted, setSubmitted] = useState(false);
+  
+  const userID = urlParams.get('user');
+  const reportID = urlParams.get('report');
 
-  const handleUserChange = (event) => {
-    setSelectedUser(event.target.value);
-  };
+  useEffect(() => {
+    setSelectedUser(userID);
+  }, [window.location.href])
 
-  const handleReasonChange = (event) => {
-    setReason(event.target.value);
-  };
+  const handleSubmit = async () => {
+    try {
+      const banResponse = await axios.post(`${process.env.REACT_APP_REPORT_API_URL}/userBan`, {
+        userID: selectedUser,
+        reason,
+        duration
+      });
 
-  const handleDurationChange = (event) => {
-    setDuration(event.target.value);
-  };
+      const reportResponse = await axios.patch(`${process.env.REACT_APP_REPORT_API_URL}/updateReportStatus`, { reportID });
 
-  const handleSubmit = () => {
+      if (banResponse.status === 200 && reportResponse.status === 200) {
+        setSubmitted(true);
+        setTimeout(() => {
+          window.close();
+        }, 2000);
+      }
 
-    console.log('Selected User:', selectedUser);
-    console.log('Reason:', reason);
-    console.log('Duration:', duration);
-
-    setSubmitted(true);
-
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 2000);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -40,7 +47,7 @@ const UserBan = () => {
           type="text"
           id="user"
           value={selectedUser}
-          onChange={handleUserChange}
+          onChange={(e) => setSelectedUser(e.target.value)}
         />
       </div>
       <div>
@@ -49,23 +56,22 @@ const UserBan = () => {
           type="text"
           id="reason"
           value={reason}
-          onChange={handleReasonChange}
+          onChange={(e) => setReason(e.target.value)}
         />
       </div>
       <div>
         <label htmlFor="duration">정지 기간:</label>
-        <select id="duration" value={duration} onChange={handleDurationChange}>
-          <option value="1일">1일</option>
-          <option value="1주">1주</option>
-          <option value="1개월">1개월</option>
-          <option value="1년">1년</option>
-          <option value="영구정지">영구정지</option>
+        <select id="duration" value={duration} onChange={(e) => setDuration(e.target.value)}>
+          <option value="1">1일</option>
+          <option value="7">1주</option>
+          <option value="30">1개월</option>
+          <option value="365">1년</option>
+          <option value="-1">영구정지</option>
         </select>
       </div>
       <button onClick={handleSubmit} disabled={isSubmitted}>
         {isSubmitted ? '처리 중...' : '유저 정지'}
       </button>
-      {isSubmitted && <p>유저 정지 완료</p>}
     </div>
   );
 };

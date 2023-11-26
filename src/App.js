@@ -15,6 +15,10 @@ import FindUser from "./components/main_page/FindMem";
 import MyPage from "./components/my_page/MyPage";
 import ProfilePage from "./components/profile_page/UserProfilePage";
 import PostList from "./components/board_page/PostList";
+import ImageUploadForm from "./components/profile_page/ImageUploadForm";
+import PostDetail from "./components/board_page/PostDetail";
+import UserBan from "./components/my_page/UserBan";
+import ReportPage from "./components/report_page/ReportPage";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -38,11 +42,15 @@ function App() {
             <Route path="DM/*" element={<DM />} />
             <Route path="board/list/*" element={<PostList />} />
             <Route path="board/write/*" element={<WritePost />} />
+            <Route path="board/read/*" element={<PostDetail />} />
             <Route path="findUser/*" element={<FindUser />} />
             <Route path="mypage/*" element={<MyPage />} />
             <Route path="profile/*" element={<ProfilePage />} />
           </Route>
           <Route path="login/findAcc" element={<FindAcc />} />
+          <Route path="profile/uploadImage" element={<ImageUploadForm />} />
+          <Route path="board/banUser/*" element={<UserBan />} />
+          <Route path="board/report/*" element={<ReportPage />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

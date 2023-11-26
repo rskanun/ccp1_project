@@ -71,11 +71,15 @@ function UserPostList({ profileUser, isProfileUser, changedDateInfo }) {
 
     // 서버로 선택된 항목 삭제 요청
     try {
-      const response = await axios.delete(`${process.env.REACT_APP_BOARD_API_URL}/deletePosts`, {
-        params: { selectedPosts }
+      const postResponse = await axios.delete(`${process.env.REACT_APP_BOARD_API_URL}/deletePosts`, {
+        params: { selectedPosts } // 데이터를 body에 담아 전송
       });
-
-      if (response.status === 200) {
+  
+      const reqResponse = await axios.delete(`${process.env.REACT_APP_REQUEST_API_URL}/delRequests`, {
+        params: { selectedPosts } // 데이터를 body에 담아 전송
+      });
+  
+      if (postResponse.status === 200 && reqResponse.status === 200) {
         alert("게시판 삭제가 완료되었습니다.");
 
         // 삭제 후 데이터 다시 가져오기

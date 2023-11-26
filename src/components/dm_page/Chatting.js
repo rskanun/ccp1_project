@@ -10,30 +10,6 @@ function Chatting({ loginID, selectedDmIndex, dmList, setDmList, selectedDM, set
     // 나가기 버튼 활성화 함수
     const [exitConfirm, setExitConfirm] = useState(false);
 
-    useEffect(() => {
-        // 새 DM이 도착했을 경우 실시간 업데이트
-        socketIO.on("newMessage", async (msg) => {
-            if(selectedDM.isReading === false) {
-                await axios.post(`${process.env.REACT_APP_DM_API_URL}/readingDM`, {
-                    params: {
-                        dmID: selectedDM.id,
-                        userID: loginID
-                    }
-                })
-            }
-            setMessages(prevMessages => [...prevMessages, { text: msg.Content, sender: msg.Sender, date: msg.Date }]);
-        });
-
-        // DM이 삭제됐을 경우 실시간 업데이트
-        socketIO.on("delMessage", (msg) => {
-            setMessages(prevMessages => {
-                const updatedMessages = [...prevMessages];
-                updatedMessages.splice(msg.index, 1);
-                return updatedMessages;
-            });
-        });
-    }, [])
-
     const sendMessage = async () => {
         if (newMessage.trim() !== '') {
             const nowDate = new Date();
@@ -159,6 +135,30 @@ function Chatting({ loginID, selectedDmIndex, dmList, setDmList, selectedDM, set
 function MessageList({ selectedDM, messages, setMessages, deleteMessage, loginID }) {
     const dmContentRef = useRef(null);
     const shouldScrollToBottom = useRef(true);
+    
+    useEffect(() => {
+        // 새 DM이 도착했을 경우 실시간 업데이트
+        socketIO.on("newMessage", async (msg) => {
+            if(selectedDM.isReading === false) {
+                await axios.post(`${process.env.REACT_APP_DM_API_URL}/readingDM`, {
+                    params: {
+                        dmID: selectedDM.id,
+                        userID: loginID
+                    }
+                })
+            }
+            setMessages(prevMessages => [...prevMessages, { text: msg.Content, sender: msg.Sender, date: msg.Date }]);
+        });
+
+        // DM이 삭제됐을 경우 실시간 업데이트
+        socketIO.on("delMessage", (msg) => {
+            setMessages(prevMessages => {
+                const updatedMessages = [...prevMessages];
+                updatedMessages.splice(msg.index, 1);
+                return updatedMessages;
+            });
+        });
+    }, [])
     
     useEffect(() => {
         // 데이터베이스에서 메세지 가져오기

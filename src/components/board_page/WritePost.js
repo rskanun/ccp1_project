@@ -36,13 +36,19 @@ function WritePost() {
 
 const PostingPage = ({ id }) => {
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("draw");
+  const [category, setCategory] = useState("");
   const [otherCategory, setOtherCategory] = useState(""); // 추가 입력 필드 값
   const [content, setContent] = useState("");
   const navigate = useNavigate();
 
   const urlParams = new URLSearchParams(window.location.search);
   const pageCategory = urlParams.get("category");
+
+  useEffect(() => {
+    if(category === "") {
+      setCategory((pageCategory && pageCategory !== "") ? pageCategory : "draw");
+    }
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,7 +65,7 @@ const PostingPage = ({ id }) => {
       const nickname = userInfo.data.Nickname;
 
       const postingResponse = await axios.post(`${process.env.REACT_APP_BOARD_API_URL}/posting`, {
-          category,
+          category: (category === 'all') ? "draw" : category,
           otherCategory,
           title,
           content,

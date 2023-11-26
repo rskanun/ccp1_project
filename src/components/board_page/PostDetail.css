@@ -1,0 +1,157 @@
+/* PostDetail.css */
+.post-detail {
+    max-width: 1400px;
+    min-height: 75vh;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    color: #000;
+  }
+  
+  .post-content {
+    margin-top: 20px;
+  }
+  
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid transparent;
+    border-bottom-color: rgb(109, 109, 109);
+  }
+  
+  .post-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .author-date-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 14px;
+    margin-left: 5px;
+  }
+  
+  .author {
+    cursor: pointer;
+    margin: 0;
+    margin-right: auto;
+  }
+  
+  .date {
+    color: #777777;
+    margin: 0;
+    margin-right: auto;
+  }
+  
+  .post-body {
+    margin: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: auto;
+  }
+  
+  .actions-container {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .actions-container button {
+    border: 1px solid transparent;
+    border-color: #777;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px 8px;
+    margin-left: 10px;
+    background-color: #fff;
+  }
+
+  .actions-container button.post-delete-btn {
+    background-color: rgb(150, 150, 150);
+    border-color: rgb(150, 150, 150);
+    color: #fff;
+  }
+  
+  /* Applicants Modal */
+  .applicants-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .applicants-container {
+    width: 400px;
+    height: 600px;
+    max-height: 60vh;
+    background-color: #fff;
+  }
+
+  .applicant-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .applicant-nickname {
+    margin: auto 0;
+    margin-left: 15px;
+  }
+
+  .applicant-nickname a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  .applicant-close-btn {
+    display: flex;
+    padding: 0 10px;
+    margin-left: auto;
+    font-size: 28px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  
+  .applicants-header {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    width: 90%;
+    border-bottom: 2px solid transparent;
+    border-color: #777;
+  }
+
+  .applicants-header span {
+    font-weight: bold;
+  }
+  
+  .applicants-list {
+    padding: 0 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .applicant-accept {
+    margin: 0 3px;
+    border: 1px solid transparent;
+    border-color: #777;
+    background-color: #fff;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+
+  .applicant-container {
+    padding: 15px 0;
+    border-bottom: 1px solid transparent;
+    border-color: #777;
+  }

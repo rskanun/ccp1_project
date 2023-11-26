@@ -122,11 +122,11 @@
   background-color: #e6e6e6;
 }
 
-.index, .title, .author, .category, .date {
+.list-index, .list-title, .list-author, .list-category, .list-date {
   display: block;
 }
 
-.index {
+.list-index {
   width: 5%;
   text-align: center;
   display: flex;
@@ -134,17 +134,17 @@
   justify-content: center;
 }
 
-.title {
+.list-title {
   font-size: 16px;
   font-weight: bold;
 }
 
-.date {
+.list-date {
   margin-right: 10px;
   color: #777777;
 }
 
-.category {
+.list-category {
   margin-left: 7px;
 }
 
