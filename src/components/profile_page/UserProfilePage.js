@@ -10,6 +10,7 @@ import UserRequestList from "./UserRequestList";
 import UserCreativeImages from "./UserCreativeImages";
 
 function UserProfilePage() {
+  const [loginID, setLoginID] = useState('');
   const [images, setImages] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -42,6 +43,7 @@ function UserProfilePage() {
         );
         const id = res.data.id;
 
+        setLoginID(id);
         setIsProfileUser(id === profileUser);
       } catch (e) {
         setIsProfileUser(false);
@@ -105,6 +107,7 @@ function UserProfilePage() {
             <UserProfile
               profileInfo={profileInfo}
               isProfileUser={isProfileUser}
+              loginID={loginID}
             />
             <UserPostList
               profileUser={profileInfo.id}

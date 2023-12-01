@@ -67,15 +67,15 @@ function LoginPage() {
     };
 
     return (
-        <div className="whole_box">
-            <div className="login_box">
-                <h3>로그인</h3>
+        <div className="whole_login_box">
+            <div className="small_login_box">
+                <h3><strong>로그인</strong></h3>
                 <input type="text" className="input_info" name="id" placeholder="아이디" value={id} onChange={
                     (e) => setID(e.target.value)
                 } onKeyDown={handleKeyDown} /><br />
                 <input type="password" className="input_info" name="password" placeholder="비밀번호" value={password} onChange={
                     (e) => setPassword(e.target.value)
-                } onKeyDown={handleKeyDown} /><br />
+                } onKeyDown={handleKeyDown} /><br /><br />
                 {alert && <span id="warningText" className='warning'>{alert}</span>}
                 {alert && <br />}
                 <button className="login_check" onClick={handleLogin}>로그인</button><br />

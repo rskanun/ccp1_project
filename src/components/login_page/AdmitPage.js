@@ -44,8 +44,8 @@ function AdmitPage() {
             <label>회원 정보 입력 및 이용약관 동의</label>
             </div>
             <div className="admitContainer">
-            <ul>
-                <li>
+            <ul className="agree_check_text_list">
+                <li >
                     <input
                         type="checkbox"
                         id="agree_check_all"
@@ -148,7 +148,8 @@ function AdmitPage() {
             <Button disabled={!agreements.termsAgreed &&
                             !agreements.personalInfoAgreed &&
                             !agreements.provisionAgreed &&
-                            !agreements.locationAgreed} variant="info"><a href="/register/enterInfo">확인</a></Button>
+                            !agreements.locationAgreed} variant="info"
+                            className="agree_ok_btn"><a href="/register/enterInfo">확인</a></Button>
         </div>
     );
 }

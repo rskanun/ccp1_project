@@ -4,14 +4,16 @@ const ObjectId = require("mongodb").ObjectId;
 
 const Report = (db) => {
     router.post("/api/sendReport", async (req, res) => {
-        const { userID, reason, content } = req.body;
+        const { userID, reason, content, url } = req.body;
         try {
             const result = await db
                 .collection("Reports")
                 .insertOne({
                     Accused: userID,
                     Category: reason,
-                    Detail_Reason: content
+                    Detail_Reason: content,
+                    Url: url,
+                    Report_Status: "처리 중"
                 });
 
             return res.status(200).json({ message: "신고 완료" });

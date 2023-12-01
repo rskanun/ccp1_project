@@ -10,12 +10,14 @@ const ReportPage = () => {
     const handleReport = async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const userID = urlParams.get('user');
+        const postID = urlParams.get('post');
 
         try {
             const response = await axios.post(`${process.env.REACT_APP_REPORT_API_URL}/sendReport`, {
                 userID,
                 reason: selectedReason,
-                content: detailReason
+                content: detailReason,
+                url: window.location.origin + "/board/read?_id=" + postID
             });
 
             if (response.status === 200) {

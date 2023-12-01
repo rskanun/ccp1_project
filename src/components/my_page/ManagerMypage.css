@@ -50,11 +50,21 @@
     cursor: pointer;
 }
 
-.report-content {
-    text-align: left;
+.report-content-container {
     border: 1px solid transparent;
     border-color: #777;
     padding: 2px 5px;
+}
+
+.report-content { 
+    text-align: left;
+    margin: 1px 0;
+}
+
+.report-btn-container {
+    display: flex;
+    margin: 5px 0;
+    margin-left: auto;
 }
 
 .user-ban-btn {
@@ -66,4 +76,14 @@
     color: #eee;
     margin-left: auto;
     padding: 2px 8px;
+}
+
+.complete-btn {
+    width: fit-content;
+    border: 1px solid #777;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: auto;
+    padding: 2px 8px;
+    margin: 0 5px;
 }

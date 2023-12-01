@@ -1,0 +1,61 @@
+.findMemberBarDiv{
+    width: 50vw;
+    height: 70vh;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.writeMemToSearchDiv{
+    border-bottom: 5px inset black;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.writeMemToSearchBar{
+    width: 25vw;
+    margin-right: 70px;
+}
+
+.writeMemToSearchBtn{
+    margin-left: 50px;
+    border-radius: 5%;
+}
+
+.searchedMemList{
+    height: 300px;
+    overflow-y: scroll;
+    list-style-type: none;
+    border-bottom: 5px inset black;
+}
+
+.searchedMember{
+    width: 800px;
+    height: 45px;
+    border-bottom: 1px dashed black;
+    padding-top:8px;
+}
+
+.searchedMember:hover{
+    background-color: #efefef;
+}
+
+.goToMemberProfile{
+    text-decoration: none;
+    color: black;
+    padding-top:50px;
+    font-size: 18px;
+    margin-right: 300px;
+}
+
+.goToMemberProfileFast{
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    float:right;
+    padding-right: 100px;
+}
+
+.goToMemberProfileFast:hover{
+   text-decoration: underline;
+}

@@ -1,0 +1,42 @@
+.WritePostWholeBox{
+    width: 70vw;
+    margin: 0 auto;
+}
+
+.WriteProjectNameBox{
+    margin-top: 30px;
+}
+
+.WriteProjectCatBox{
+    margin-top: 30px;
+}
+
+.WriteProjectDetailConbox{
+    margin-top: 30px;
+    min-height: 600px;
+}
+
+.WriteProjectDetailbox{
+    overflow-y: scroll;
+}
+
+.registProgectBtn{
+    margin-left: 950px;
+}
+
+.stopProgectBtn{
+    margin-left: 20px;
+}
+
+.rdw-editor-wrapper {
+    height: 100%;
+}
+
+.rdw-editor-toolbar {
+    border-color: #dee2e6;
+}
+
+.rdw-editor-main {
+    border: 1px solid #dee2e6;
+    height: 500px;
+}

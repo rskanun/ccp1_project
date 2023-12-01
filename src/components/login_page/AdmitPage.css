@@ -5,6 +5,7 @@
 }
 
 .box{
+    margin: 0 auto;
     margin-top: 40px;
     width: 1000px;
     height: 200px;
@@ -16,4 +17,14 @@
 .admitContainer {
     overflow-y: scroll;
     max-height: 70vh;
+    
+}
+
+.agree_check_text_list{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.agree_ok_btn{
+    margin-left: 1300px;
 }

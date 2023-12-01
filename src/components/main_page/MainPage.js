@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./MainPage.css";
+import draw from "./img/draw.png"
+import box from "./img/box.png"
+import coding from "./img/coding.png"
+import musicImg from "./img/musicImg.png"
+import slate from "./img/slate.png"
+import qMark from "./img/qMark.png"
 import fileImg from "./img/fileImg.jpg";
-import testImg from "./img/testImg.png";
 import axios from "axios";
 
 function Main() {
@@ -10,7 +15,7 @@ function Main() {
     const handleSearch = (e) => {
         if (e.key === 'Enter' && searchText !== '') {
             const encodedSearch = encodeURIComponent(searchText);
-            window.location.href = 'http://localhost:3000/board/list?search=' + encodedSearch;
+            window.location.href = '/board/list?search=' + encodedSearch;
         }
     }
 
@@ -29,37 +34,37 @@ function Main() {
                 <div className="categoriesInMain">
                     <div id="cat1" className="categoryInMain" onClick={() => goToCategory("draw")}>
                         <div className="catePic">
-                            <img src={testImg} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
+                            <img src={draw} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
                             <span>그림/일러스트</span>
                         </div>
                     </div>
                     <div id="cat2" className="categoryInMain" onClick={() => goToCategory("program")}>
                         <div className="catePic">
-                            <img src={testImg} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
+                            <img src={coding} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
                             <span>코딩</span>
                         </div>
                     </div>
                     <div id="cat3" className="categoryInMain" onClick={() => goToCategory("music")}>
                         <div className="catePic">
-                            <img src={testImg} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
+                            <img src={musicImg} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
                             <span>음악/작곡</span>
                         </div>
                     </div>
                     <div id="cat4" className="categoryInMain" onClick={() => goToCategory("goods")}>
                         <div className="catePic">
-                            <img src={testImg} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
+                            <img src={box} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
                             <span>물품</span>
                         </div>
                     </div>
                     <div id="cat5" className="categoryInMain" onClick={() => goToCategory("video")}>
                         <div className="catePic">
-                            <img src={testImg} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
+                            <img src={slate} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
                             <span>영상</span>
                         </div>
                     </div>
                     <div id="cat6" className="categoryInMain" onClick={() => goToCategory("other")}>
                         <div className="catePic">
-                            <img src={testImg} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
+                            <img src={qMark} alt="파일 사진" style={{ width: "100%", height: "70%" }} />
                             <span>기타</span>
                         </div>
                     </div>
@@ -71,6 +76,7 @@ function Main() {
     );
 
 }
+
 
 function RequestBox() {
     const [requests, setRequests] = useState([]);
@@ -119,15 +125,15 @@ function RequestBox() {
 }
 
 const goToCategory = (category) => {
-    window.location.href = 'http://localhost:3000/board/list?category=' + category;
+    window.location.href = '/board/list?category=' + category;
 }
 
 const goToReq = (reqId) => {
     if(reqId && reqId !== '') {
-        window.location.href = 'http://localhost:3000/board/read?_id=' + reqId;
+        window.location.href = '/board/read?_id=' + reqId;
     }
     else {
-        window.location.href = 'http://localhost:3000/board/write';
+        window.location.href = '/board/write';
     }
 }
 

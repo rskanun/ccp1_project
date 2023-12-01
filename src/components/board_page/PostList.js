@@ -79,20 +79,20 @@ function PostList() {
     };
 
     const handleCategoryClick = (category) => {
-        window.location.href = 'http://localhost:3000/board/list?category=' + category;
+        window.location.href = '/board/list?category=' + category;
     };
 
     const handleSearch = (e) => {
         if (e.key === 'Enter' && searchText !== '') {
             const encodedSearch = encodeURIComponent(searchText);
-            window.location.href = 'http://localhost:3000/board/list?search=' + encodedSearch;
+            window.location.href = '/board/list?search=' + encodedSearch;
 
             setSearchText('');
         }
     }
 
     const handlePostClick = (id) => {
-        window.location.href = 'http://localhost:3000/board/read?_id='+id;
+        window.location.href = '/board/read?_id='+id;
     }
 
     return (
@@ -146,7 +146,7 @@ function PostList() {
                 ))}
             </div>
             <div className="write-button-container">
-                <button onClick={() => {window.location.href = 'http://localhost:3000/board/write?category='+category}} className="write-button">
+                <button onClick={() => {window.location.href = '/board/write?category='+category}} className="write-button">
                     글쓰기
                 </button>
             </div>

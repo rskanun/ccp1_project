@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { useCookies } from "react-cookie";
+import { Editor, EditorState, ContentState, convertFromRaw } from 'draft-js';
 import React, { useEffect, useState } from 'react';
+import { socketIO } from '../../Socket';
 
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import "./PostDetail.css";
 
 function PostDetail() {
@@ -61,13 +64,17 @@ function PostDetailPage({ loginID, postID }) {
                     axios.get(`${process.env.REACT_APP_REQUEST_API_URL}/getRequest`, { params: { postID: postID } })
                 ]);
 
+                const rawContent = postResponse.data.Content;
+                const contentState = rawContent ? convertFromRaw(rawContent) : ContentState.createFromText('');
+                const contentEditorState = EditorState.createWithContent(contentState || ContentState.createFromText(''));
+
                 const post = {
                     title: postResponse.data.Title,
                     category: postResponse.data.Category,
                     userID: postResponse.data.Register_Id,
                     nickname: postResponse.data.Register_Nickname,
                     date: postResponse.data.Register_Date,
-                    content: postResponse.data.Content
+                    content: contentEditorState
                 };
 
                 const applicants = await Promise
@@ -130,7 +137,7 @@ function PostDetailPage({ loginID, postID }) {
 
                 if (postResponse.status === 200 && reqResponse.status === 200) {
                     alert("게시판 삭제가 완료되었습니다.");
-                    window.location.href = `http://localhost:3000/board/list?category=${postInfo.category}`;
+                    window.location.href = `/board/list?category=${postInfo.category}`;
                 }
             } catch (error) {
                 // 에러 처리
@@ -140,7 +147,7 @@ function PostDetailPage({ loginID, postID }) {
     };
 
     const handleReport = async () => {
-        const reportUrl = './report?user=' + postInfo.userID;
+        const reportUrl = './report?user=' + postInfo.userID + "&post=" + postID;
         window.open(reportUrl, '_blank', 'width=600, height=400');
     }
 
@@ -201,12 +208,21 @@ function PostDetailPage({ loginID, postID }) {
 
     return (
         <div className="post-detail">
+            {/* Applicants Modal */}
+            {showApplicants &&
+                <ApplicantsList
+                    toggleApplicants={toggleApplicants}
+                    reqInfo={reqInfo}
+                    loginID={loginID}
+                    postID={postID}
+                />
+            }
             <div className="post-content">
                 <div className="post-header">
                     <div className='post-info'>
                         <h1 className="post-title">[{reqInfo.status}] {postInfo.title}</h1>
                         <div className="author-date-container">
-                            <span className="author" onClick={() => window.location.href = 'http://localhost:3000/profile?user=' + postInfo.nickname}>{postInfo.nickname}</span>
+                            <span className="author" onClick={() => window.location.href = '/profile?user=' + postInfo.nickname}>{postInfo.nickname}</span>
                             <span className="date">{dateToStr(postInfo.date)}</span>
                         </div>
                     </div>
@@ -226,20 +242,13 @@ function PostDetailPage({ loginID, postID }) {
                     </div>
                 </div>
 
-                <div className="post-body">
-                    <p>{postInfo.content}</p>
+                <div className="post-body" style={{ display: 'flex' }}>
+                    <Editor
+                        editorState={postInfo.content || EditorState.createEmpty()} // Check if postInfo.content is defined
+                        readOnly={true}
+                    />
                 </div>
             </div>
-
-            {/* Applicants Modal */}
-            {showApplicants &&
-                <ApplicantsList
-                    toggleApplicants={toggleApplicants}
-                    reqInfo={reqInfo}
-                    loginID={loginID}
-                    postID={postID}
-                />
-            }
         </div>
     );
 }
@@ -253,30 +262,93 @@ function ApplicantsList({ toggleApplicants, reqInfo, loginID, postID }) {
                     applicantID,
                     postID: postID
                 });
+                                
+                const myID = loginID;
+                const targetID = applicantID;
+                const myDmId = await findDM({senderID: myID, receiverID: targetID});
+                const targetDmId = await findDM({senderID: targetID, receiverID: myID});
 
-                const dmResponse = await axios.post(`${process.env.REACT_APP_DM_API_URL}/addDM`, {
-                    senderID: loginID,
-                    receiverID: applicantID
-                });
-
-                if (reqResponse.status === 200 && dmResponse.status === 200) {
+                const dmID = await createDM({myDmId, targetDmId, myID, targetID})
+                if (reqResponse.status === 200) {
                     const content = "제작자 님께서 해당 의뢰의 제작자로 확정되었음을 알려드립니다!\n"
                         + "해당 의뢰 링크: " + window.location.href;
-
-                    const sendResponse = await axios.post(`${process.env.REACT_APP_DM_API_URL}/sendDM`, {
-                        DM_ID: dmResponse.data.dmID,
+                    const data = {
+                        DM_ID: dmID,
                         Content: content,
                         Sender: loginID,
                         Date: new Date()
-                    });
+                    }
+
+                    const sendResponse = await axios.post(`${process.env.REACT_APP_DM_API_URL}/sendDM`, data);
 
                     if (sendResponse.status === 200) {
+                        // 메시지를 전송하고 messages 배열에 추가
+                        socketIO.emit("sendMessage", {
+                            ...data,
+                            Receiver: targetID
+                        });
+
                         alert("제작자 확정을 완료했습니다!");
                         window.location.reload();
                     }
                 }
             } catch (e) {
                 console.error(e);
+            }
+        }
+    }
+
+    const createDM = async ({myDmId, targetDmId, myID, targetID}) => {
+        try {
+            if(!myDmId && !targetDmId) {
+                const createMyDM = await axios.post(`${process.env.REACT_APP_DM_API_URL}/addDM`, {
+                    senderID: myID,
+                    receiverID: targetID
+                });
+
+                const createTargetDM = await axios.post(`${process.env.REACT_APP_DM_API_URL}/addDM`, {
+                    senderID: targetID,
+                    receiverID: myID,
+                    dmID: createMyDM.data
+                });
+
+                return createMyDM.data;
+            }
+            else if(!myDmId) {
+                const createMyDM = await axios.post(`${process.env.REACT_APP_DM_API_URL}/addDM`, {
+                    senderID: myID,
+                    receiverID: targetID,
+                    dmID: targetDmId
+                });
+
+                return targetDmId;
+            }
+            else if(!targetDmId) {
+                const createTargetDM = await axios.post(`${process.env.REACT_APP_DM_API_URL}/addDM`, {
+                    senderID: targetID,
+                    receiverID: myID,
+                    dmID: myDmId
+                });
+
+                return myDmId;
+            } else 
+                return myDmId;
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    const findDM = async ({ senderID, receiverID}) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_DM_API_URL}/getDM`, {
+                params: { senderID, receiverID }
+            });
+
+            return response.data.DM_ID;
+        } catch (e) {
+            if(e.response.status === 404) {
+                console.error(e);
+                return null;
             }
         }
     }

@@ -24,7 +24,11 @@ const UserBan = () => {
         duration
       });
 
-      const reportResponse = await axios.patch(`${process.env.REACT_APP_REPORT_API_URL}/updateReportStatus`, { reportID });
+      const reportResponse = (reportID) ?
+        await axios.patch(`${process.env.REACT_APP_REPORT_API_URL}/updateReportStatus`, { reportID })
+        :
+        {status: 200};
+
 
       if (banResponse.status === 200 && reportResponse.status === 200) {
         setSubmitted(true);

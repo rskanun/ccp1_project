@@ -66,17 +66,21 @@ const User = (db) => {
         const nickname = req.query.nickname;
         const usersInfo = await db
             .collection("User")
-            .find({ "Nickname": { $regex: nickname, $options: 'i' } })
+            .find({
+                "Nickname": { $regex: nickname, $options: 'i' },
+                "Permission_Level": { $lt: 2 } // Permission_Level이 2 미만인 경우만 포함
+            })
             .toArray();
-
-        if(usersInfo.length > 0) {
+    
+        if (usersInfo.length > 0) {
             res.status(200).json(usersInfo.map((user) => ({
                 id: user.ID,
                 nickname: user.Nickname
             })));
+        } else {
+            res.status(404).json({ message: "회원을 찾지 못했습니다!" });
         }
-        else res.status(404).json({ message: "회원을 찾지 못했습니다!" });
-    })
+    });
 
     router.post("/api/updateUserInfo", async (req, res) => {
         const { id, email, password, nickname } = req.body;

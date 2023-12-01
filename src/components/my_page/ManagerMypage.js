@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import "./ManagerMypage.css";
 
 const ManagerMypage = ({ user }) => {
-    const [reporstInfo, setReportsInfo] = useState([]);
+    const [reportsInfo, setReportsInfo] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -15,7 +15,8 @@ const ManagerMypage = ({ user }) => {
                     reportID: report._id,
                     userID: report.Accused,
                     category: report.Category,
-                    content: report.Detail_Reason
+                    content: report.Detail_Reason,
+                    url: report.Url
                 })));
             } catch (e) {
                 if (e.data.status !== 404) {
@@ -36,7 +37,7 @@ const ManagerMypage = ({ user }) => {
                 <p>현재 접속중인 계정: {user.nickname}({user.id})</p>
                 <br></br>
                 <h1 className='title-header'>신고 목록</h1>
-                {reporstInfo.map((report, index) => (
+                {reportsInfo.map((report, index) => (
                     <Report key={index} report={report} />
                 ))}
             </div>
@@ -60,18 +61,40 @@ function Report({ report }) {
         });
     };
 
+    const handleComplete = async () => {
+        try {
+            await axios.patch(`${process.env.REACT_APP_REPORT_API_URL}/updateReportStatus`, { reportID: report.reportID })
+
+            window.location.reload();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    console.log(report);
+
     return (
         <div className='report-container'>
             <div className='report-header'>
                 <div className='report-accused'><strong>아이디:</strong> {report.userID}</div>
                 <div className='report-category'><strong>사유:</strong> {report.category}</div>
             </div>
-            <div className='report-body' onClick={handleToggle}>
-                <span className='report-content-btn'><strong>{expanded ? `▼ 닫기` : `▶ 펼치기`}</strong></span>
+            <div className='report-body'>
+                <span className='report-content-btn' onClick={handleToggle}><strong>{expanded ? `▼ 닫기` : `▶ 펼치기`}</strong></span>
                 {expanded && (
                     <>
-                        <p className='report-content'>{report.content}</p>
-                        <button className='user-ban-btn' onClick={handleSuspend}>활동 정지</button>
+                        <div className='report-content-container'>
+                            <p className='report-content'>
+                                <strong>주소</strong>: {report.url}
+                            </p>
+                            <p className='report-content'>
+                                <strong>사유</strong>: {report.content}
+                            </p>
+                        </div>
+                        <div className='report-btn-container'>
+                            <button className='complete-btn' onClick={handleComplete}>처리 완료</button>
+                            <button className='user-ban-btn' onClick={handleSuspend}>활동 정지</button>
+                        </div>
                     </>
                 )}
             </div>
